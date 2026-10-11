@@ -254,6 +254,22 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .tab.attiva { color: var(--blu); }
 .tab.attiva svg { stroke-width: 2.6; }
 
+/* ---------- riparazione ---------- */
+.errore-app {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(20, 49, 95, .7);
+}
+.errore-scheda {
+  width: 100%; max-width: 360px;
+  padding: 22px 18px;
+  background: #fff;
+  border-radius: 18px;
+  text-align: center;
+}
+.errore-scheda p { margin: 0 0 16px; font-size: 18px; font-weight: 600; color: var(--blu); }
+
 /* ---------- messaggio breve ---------- */
 .toast {
   position: fixed; left: 50%; transform: translateX(-50%);

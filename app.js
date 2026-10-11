@@ -3,7 +3,13 @@
   var M = window.MENU;
 
   // ---------- utilita' ----------
-  function $(id) { return document.getElementById(id); }
+  // Se un elemento manca (file mescolati), si usa un "finto" elemento: l'app non si blocca
+  var FINTO = {
+    style: {}, classList: { toggle: function () {}, add: function () {}, remove: function () {} },
+    addEventListener: function () {}, setAttribute: function () {}, removeAttribute: function () {},
+    getAttribute: function () { return null; }, focus: function () {}, remove: function () {}
+  };
+  function $(id) { return document.getElementById(id) || FINTO; }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -287,6 +293,7 @@
 
   // ---------- installazione ----------
   var promptInstalla = null;
+  try {
   var ua = navigator.userAgent || '';
   var inApp = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -346,6 +353,7 @@
   $('guida-chiudi').addEventListener('click', chiudiGuida);
   $('guida').addEventListener('click', function (e) { if (e.target === $('guida')) chiudiGuida(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guida').hidden) chiudiGuida(); });
+  } catch (errInstalla) { /* il pulsante Scarica e' accessorio: l'app parte comunque */ }
 
   // ---------- collegamenti ----------
   $('tab-oggi').addEventListener('click', function () { mostraScheda('oggi'); });
@@ -388,8 +396,15 @@
   giorno = dentroPeriodo(oggi());
   meseVisto = meseCorrente();
   mostraScheda('oggi');
+  document.documentElement.setAttribute('data-pronto', '1');
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    var avevaControllo = !!navigator.serviceWorker.controller;
+    var ricaricato = false;
+    // Quando arriva una versione nuova dell'app, la pagina si ricarica da sola una volta
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (avevaControllo && !ricaricato) { ricaricato = true; location.reload(); }
+    });
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
 })();

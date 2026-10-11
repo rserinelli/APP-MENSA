@@ -96,8 +96,44 @@
   </div>
 </div>
 
+<div class="errore-app" id="errore-app" role="alert" hidden>
+  <div class="errore-scheda">
+    <p>L'app non si è caricata bene.</p>
+    <button class="btn-pieno btn-largo" id="btn-ripara">Ripara e ricarica</button>
+  </div>
+</div>
+
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
+<script>
+  // Rete di sicurezza: se l'app non parte, compare il pulsante per ripararla da soli
+  (function () {
+    function mostra() {
+      var b = document.getElementById('errore-app');
+      if (b && !document.documentElement.getAttribute('data-pronto')) b.hidden = false;
+    }
+    window.addEventListener('error', function () { setTimeout(mostra, 400); }, true);
+    setTimeout(mostra, 4000);
+    document.addEventListener('click', function (e) {
+      if (!e.target || e.target.id !== 'btn-ripara') return;
+      var fatto = false;
+      function vai() { if (fatto) return; fatto = true; location.reload(); }
+      setTimeout(vai, 2500);
+      var p = [];
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+        p.push(navigator.serviceWorker.getRegistrations().then(function (r) {
+          return Promise.all(r.map(function (x) { return x.unregister(); }));
+        }));
+      }
+      if (window.caches && caches.keys) {
+        p.push(caches.keys().then(function (k) {
+          return Promise.all(k.map(function (x) { return caches.delete(x); }));
+        }));
+      }
+      Promise.all(p).then(vai, vai);
+    });
+  })();
+</script>
 <script src="menu-data.js"></script>
 <script src="app.js"></script>
 </body>

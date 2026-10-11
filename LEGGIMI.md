@@ -43,6 +43,10 @@ Tutto sta in **un solo file: `menu-data.js`**, scritto in chiaro.
 Per pubblicare la modifica ricarica `menu-data.js` sul sito (su Netlify trascina di nuovo la cartella).
 I genitori vedono il menù aggiornato alla prossima apertura dell'app con connessione.
 
+## Se l'app resta ferma su "Caricamento..."
+Di solito succede quando sul sito sono stati caricati solo alcuni file e non tutti. Ricarica **sempre l'intera cartella** (tutti i file e la cartella `icons`).
+L'app ora si accorge da sola del problema: dopo pochi secondi compare il pulsante **Ripara e ricarica**.
+
 ## Note
 - Chiunque abbia il link può aprire l'app: contiene solo il menù, nessun dato personale.
 - Le immagini di Natale e Pasqua vengono da altri siti e si vedono solo online; l'emoji compare sempre.

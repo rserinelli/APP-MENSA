@@ -1,11 +1,18 @@
 // Service worker: permette di aprire l'app anche senza connessione.
-// Strategia: prima la rete (cosi' i menu aggiornati arrivano subito), poi la copia salvata.
-const CACHE = 'menu-mensa-v3';
+// Strategia: prima la rete (sempre con controllo di versione, cosi' i menu aggiornati
+// arrivano subito e i file non si mescolano), poi la copia salvata se manca la connessione.
+const CACHE = 'menu-mensa-v4';
 const FILE = ['./', 'index.html', 'style.css', 'app.js', 'menu-data.js',
               'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILE)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => Promise.all(FILE.map(f =>
+        fetch(new Request(f, { cache: 'reload' })).then(r => { if (!r.ok) throw new Error(f); return c.put(f, r); })
+      )))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', e => {
@@ -47,8 +54,9 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // File dell'app: rete con controllo di versione, altrimenti copia salvata
   e.respondWith(
-    fetch(req)
+    fetch(req, { cache: 'no-cache' })
       .then(r => { const copia = r.clone(); caches.open(CACHE).then(c => c.put(req, copia)); return r; })
       .catch(() => caches.match(req).then(r => r || caches.match('index.html')))
   );
