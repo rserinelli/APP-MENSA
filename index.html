@@ -28,15 +28,17 @@
   </button>
 </header>
 
-<aside id="invito-installa" class="invito" hidden>
-  <p id="invito-testo"></p>
-  <div class="invito-azioni">
-    <button class="btn-pieno" id="btn-installa" hidden>Installa</button>
-    <button class="btn-testo" id="btn-chiudi-invito">Non ora</button>
-  </div>
-</aside>
+
 
 <main class="contenuto">
+  <div class="scarica" id="blocco-scarica" hidden>
+    <button class="btn-scarica" id="btn-scarica">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+      <span>Scarica l'app</span>
+    </button>
+    <p class="scarica-sotto">Gratis. Si installa in pochi secondi.</p>
+  </div>
+
   <div class="stagione" id="stagione" role="status"></div>
 
   <!-- ========== VISTA GIORNALIERA ========== -->
@@ -84,6 +86,15 @@
     <span>Mese</span>
   </button>
 </nav>
+
+<div class="guida" id="guida" role="dialog" aria-modal="true" aria-labelledby="guida-titolo" hidden>
+  <div class="guida-scheda">
+    <h2 id="guida-titolo" class="guida-titolo">Scarica l'app</h2>
+    <ol id="guida-passi" class="guida-passi"></ol>
+    <p id="guida-nota" class="guida-nota"></p>
+    <button class="btn-pieno btn-largo" id="guida-chiudi">Ho capito</button>
+  </div>
+</div>
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 

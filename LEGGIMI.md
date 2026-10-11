@@ -22,10 +22,12 @@ L'app deve stare su un sito con indirizzo `https://`. Due modi gratuiti:
 
 ## 2. Condividerla con gli altri genitori
 
-Manda l'indirizzo in chat. Chi lo apre può installarla:
+Manda l'indirizzo in chat. Chi lo apre trova in alto un grande pulsante **Scarica l'app**:
 
-- **iPhone:** aprire il link con **Safari** → tasto Condividi → **Aggiungi alla schermata Home**.
-- **Android:** aprire il link con **Chrome** → compare il tasto **Installa** (oppure menu ⋮ → *Installa app*).
+- **Android (Chrome):** un tocco sul pulsante e il telefono chiede "Installare l'app?". Si conferma e l'icona compare tra le app.
+- **iPhone:** Apple non permette l'installazione con un solo tocco, quindi il pulsante mostra 3 passaggi illustrati (Condividi → Aggiungi alla schermata Home → Aggiungi). Il link va aperto con Safari.
+
+Se l'app è già installata, il pulsante non compare più.
 
 Dopo la prima apertura l'app funziona anche senza connessione.
 Dentro l'app, il tasto **Condividi l'app** manda il link ad altri genitori e **Condividi il menù** invia il menù del giorno come messaggio.

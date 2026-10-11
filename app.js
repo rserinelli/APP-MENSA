@@ -52,6 +52,17 @@
     return ((((passate + (M.settimanaIniziale - 1)) % 4) + 4) % 4) + 1;
   }
 
+  // Stagione (per l'immagine del weekend): equinozi e solstizi come nello script originale
+  function getStagione(data) {
+    var anno = data.getFullYear();
+    var primavera = new Date(anno, 2, 20), estate = new Date(anno, 5, 21);
+    var autunno = new Date(anno, 8, 22), inverno = new Date(anno, 11, 21);
+    if (data >= primavera && data < estate) return 'primavera';
+    if (data >= estate && data < autunno) return 'estate';
+    if (data >= autunno && data < inverno) return 'autunno';
+    return 'inverno';
+  }
+
   function titoloStagione(d) {
     return 'Menù ' + (isInverno(d) ? 'Invernale' : 'Estivo') + ' ' + M.anno;
   }
@@ -151,21 +162,20 @@
       $('chip-settimana').textContent = 'Mensa chiusa';
       var c = st.chiusura;
       var img = c.immagine
-        ? '<img class="chiuso-img" src="' + esc(c.immagine) + '" alt="" onerror="this.remove()">' : '';
-      box.innerHTML = '<div class="chiuso-box"><div class="chiuso-emoji" aria-hidden="true">' + esc(c.emoji || '🚫') + '</div>' +
-        img + '<div>' + esc(c.testo || 'Mensa chiusa') + '</div></div>';
+        ? '<img class="chiuso-img" src="' + esc(c.immagine) + '" alt="Mensa chiusa" onerror="this.remove()">' : '';
+      box.innerHTML = '<div class="chiuso-box">' + img + '<div>' + esc(c.testo || 'Mensa chiusa') + '</div></div>';
       return;
     }
     if (st.tipo === 'weekend') {
       $('chip-settimana').textContent = 'Mensa chiusa';
-      box.innerHTML = '<div class="chiuso-box"><div class="chiuso-emoji" aria-hidden="true">🌤️</div>' +
+      var icona = M.iconeWeekend[getStagione(d)];
+      box.innerHTML = '<div class="chiuso-box"><img class="img-weekend" src="' + esc(icona) + '" alt="Mensa chiusa" onerror="this.remove()">' +
         '<div>Mensa chiusa per il fine settimana</div></div>';
       return;
     }
     if (st.tipo === 'fuori' || !st.menu) {
       $('chip-settimana').textContent = 'Mensa chiusa';
-      box.innerHTML = '<div class="chiuso-box"><div class="chiuso-emoji" aria-hidden="true">📅</div>' +
-        '<div>Menù non disponibile per questo giorno</div></div>';
+      box.innerHTML = '<div class="chiuso-box"><div>Menù non disponibile per questo giorno</div></div>';
       return;
     }
 
@@ -277,31 +287,65 @@
 
   // ---------- installazione ----------
   var promptInstalla = null;
-  function mostraInvito(testo, conBottone) {
-    if (memo('invito-chiuso') === '1') return;
-    $('invito-testo').textContent = testo;
-    $('btn-installa').hidden = !conBottone;
-    $('invito-installa').hidden = false;
-  }
-  window.addEventListener('beforeinstallprompt', function (e) {
-    e.preventDefault();
-    promptInstalla = e;
-    mostraInvito('Installa l\'app sul telefono per aprirla con un tocco, anche senza connessione.', true);
-  });
-  window.addEventListener('appinstalled', function () { $('invito-installa').hidden = true; });
-  $('btn-installa').addEventListener('click', function () {
-    if (!promptInstalla) return;
-    promptInstalla.prompt();
-    promptInstalla.userChoice.then(function () { promptInstalla = null; $('invito-installa').hidden = true; });
-  });
-  $('btn-chiudi-invito').addEventListener('click', function () { memo('invito-chiuso', '1'); $('invito-installa').hidden = true; });
-
+  var ua = navigator.userAgent || '';
   var inApp = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (isIOS && !inApp) {
-    mostraInvito('Per installare l\'app su iPhone: tocca il tasto Condividi di Safari e poi "Aggiungi alla schermata Home".', false);
+  var isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  var ICO_CONDIVIDI = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+  var ICO_AGGIUNGI = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>';
+  var ICO_PUNTINI = '<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+  var ICO_SCARICA = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>';
+
+  function passi(lista) {
+    return lista.map(function (p, i) {
+      return '<li class="guida-passo"><span class="guida-num">' + (i + 1) + '</span>' +
+        '<span class="guida-testo">' + p[0] + '</span>' +
+        '<span class="guida-icona">' + p[1] + '</span></li>';
+    }).join('');
   }
+
+  function apriGuida() {
+    var elenco, nota;
+    if (isIOS) {
+      elenco = [
+        ['Tocca il tasto <b>Condividi</b> di Safari (il quadrato con la freccia verso l\'alto)', ICO_CONDIVIDI],
+        ['Scorri il menù e tocca <b>Aggiungi alla schermata Home</b>', ICO_AGGIUNGI],
+        ['Tocca <b>Aggiungi</b> in alto a destra. L\'icona è sul tuo telefono!', ICO_SCARICA]
+      ];
+      nota = 'Non vedi il tasto Condividi? Apri questo link con Safari.';
+    } else {
+      elenco = [
+        ['Tocca i <b>tre puntini</b> in alto a destra del browser', ICO_PUNTINI],
+        ['Tocca <b>Installa app</b> (oppure <b>Aggiungi a schermata Home</b>)', ICO_AGGIUNGI],
+        ['Tocca <b>Installa</b>. L\'icona è sul tuo telefono!', ICO_SCARICA]
+      ];
+      nota = 'Funziona meglio con Chrome: se usi un altro browser, apri questo link con Chrome.';
+    }
+    $('guida-passi').innerHTML = passi(elenco);
+    $('guida-nota').textContent = nota;
+    $('guida').hidden = false;
+    $('guida-chiudi').focus();
+  }
+  function chiudiGuida() { $('guida').hidden = true; $('btn-scarica').focus(); }
+
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); promptInstalla = e; });
+  window.addEventListener('appinstalled', function () { $('blocco-scarica').hidden = true; toast('App installata'); });
+
+  $('blocco-scarica').hidden = inApp;
+  $('btn-scarica').addEventListener('click', function () {
+    if (promptInstalla) {
+      // Android / Chrome: finestra di installazione del telefono, un solo tocco
+      var richiesta = promptInstalla;
+      promptInstalla = null;
+      richiesta.prompt();
+      richiesta.userChoice.then(function (r) { if (r && r.outcome === 'accepted') $('blocco-scarica').hidden = true; });
+    } else {
+      apriGuida();
+    }
+  });
+  $('guida-chiudi').addEventListener('click', chiudiGuida);
+  $('guida').addEventListener('click', function (e) { if (e.target === $('guida')) chiudiGuida(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guida').hidden) chiudiGuida(); });
 
   // ---------- collegamenti ----------
   $('tab-oggi').addEventListener('click', function () { mostraScheda('oggi'); });

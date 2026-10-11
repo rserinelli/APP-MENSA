@@ -1,6 +1,6 @@
 // Service worker: permette di aprire l'app anche senza connessione.
 // Strategia: prima la rete (cosi' i menu aggiornati arrivano subito), poi la copia salvata.
-const CACHE = 'menu-mensa-v1';
+const CACHE = 'menu-mensa-v3';
 const FILE = ['./', 'index.html', 'style.css', 'app.js', 'menu-data.js',
               'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -33,7 +33,19 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  if (url.origin !== location.origin) return; // immagini esterne: gestite dal browser
+  // Immagini esterne (weekend, Natale, Pasqua): copia salvata, aggiornata in background
+  if (url.origin !== location.origin) {
+    if (req.destination === 'image') {
+      e.respondWith(
+        caches.open(CACHE).then(async c => {
+          const salvata = await c.match(req);
+          const rete = fetch(req).then(r => { if (r && (r.ok || r.type === 'opaque')) c.put(req, r.clone()); return r; }).catch(() => salvata);
+          return salvata || rete;
+        })
+      );
+    }
+    return;
+  }
 
   e.respondWith(
     fetch(req)

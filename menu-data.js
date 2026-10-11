@@ -20,21 +20,27 @@ window.MENU = {
   // 11 = novembre ... 4 = aprile
   mesiInvernali: [11, 12, 1, 2, 3, 4],
 
+  // ---- Immagini del fine settimana (cambiano con la stagione) ----
+  iconeWeekend: {
+    primavera: "https://media.istockphoto.com/id/157107434/vector/colorful-cartoon-of-happy-children-jumping.jpg?s=612x612&w=0&k=20&c=VGWvawaGKpGBMzAmJpRE7uj60tmplBqtvFMX2rl0nvY=",
+    estate: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKjDUs8iU3yBvWoowEtY9M16-2HyutxewuEUJuBlR0CVnGp20xR1hc6YM9&s=10",
+    autunno: "https://i.etsystatic.com/47613973/r/il/07e6e2/7037296905/il_1588xN.7037296905_7f9d.jpg",
+    inverno: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0BTqXATbkPem0oC0Qk0DmRQyPykpYdQYLzdU-LHiraSTTzVxl3I3t6LY&s=10"
+  },
+
   // ---- Chiusure straordinarie (primo e ultimo giorno inclusi) ----
-  // "immagine" e' facoltativa (si vede solo con la connessione); "emoji" compare sempre.
+  // "immagine" e' l'immagine mostrata nei giorni di chiusura.
   chiusure: [
     {
       da: "2026-12-23", a: "2027-01-06",
       etichetta: "Vacanze di Natale",
       testo: "Mensa chiusa per le vacanze di Natale",
-      emoji: "🎄",
       immagine: "https://lacapannadelsilenzio.it/wp-content/uploads/2015/12/nativit%C3%A0-36.jpg"
     },
     {
       da: "2027-03-25", a: "2027-03-30",
       etichetta: "Vacanze di Pasqua",
       testo: "Mensa chiusa per le vacanze di Pasqua",
-      emoji: "🐣",
       immagine: "https://www.cercoiltuovolto.it/wp-content/uploads/2022/04/resurreccio%CC%81n-fano.jpeg"
     }
   ],

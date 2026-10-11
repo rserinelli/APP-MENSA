@@ -60,17 +60,59 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 }
 .btn-icona:active { background: rgba(255,255,255,.18); }
 
-/* ---------- invito all'installazione ---------- */
-.invito {
-  margin: 12px auto 0;
-  max-width: 560px;
-  padding: 12px 14px;
+/* ---------- pulsante "Scarica l'app" ---------- */
+.scarica { margin-bottom: 14px; text-align: center; }
+.btn-scarica {
+  width: 100%;
+  min-height: 60px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 12px 18px;
+  background: var(--blu); color: #fff;
+  border: 0; border-radius: 16px;
+  font-size: 20px; font-weight: 700;
+  box-shadow: 0 4px 0 var(--blu-scuro);
+}
+.btn-scarica:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--blu-scuro); }
+.scarica-sotto { margin: 8px 0 0; font-size: 13.5px; color: var(--tenue); }
+
+/* ---------- guida passo passo ---------- */
+.guida {
+  position: fixed; inset: 0; z-index: 40;
+  display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(20, 49, 95, .62);
+}
+.guida-scheda {
+  width: 100%; max-width: 520px;
+  max-height: 92%; overflow-y: auto;
+  padding: 20px 18px calc(18px + env(safe-area-inset-bottom, 0px));
   background: #fff;
-  border: 1.5px solid var(--azzurro);
+  border-radius: 22px 22px 0 0;
+}
+.guida-titolo { margin: 0 0 14px; font-family: var(--scritta); font-size: 28px; font-weight: 400; color: var(--blu); text-align: center; }
+.guida-passi { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.guida-passo {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  background: var(--oggi);
   border-radius: 14px;
 }
-.invito p { margin: 0 0 10px; font-size: 14.5px; }
-.invito-azioni { display: flex; gap: 8px; }
+.guida-num {
+  flex: none; width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--blu); color: #fff;
+  font-weight: 700; font-size: 18px;
+}
+.guida-testo { flex: 1; font-size: 17px; line-height: 1.3; color: var(--inchiostro); }
+.guida-testo b { color: var(--blu); }
+.guida-icona {
+  flex: none; width: 46px; height: 46px;
+  display: grid; place-items: center;
+  background: #fff; color: var(--blu);
+  border: 1.5px solid var(--linea); border-radius: 10px;
+}
+.guida-nota { margin: 14px 2px 14px; font-size: 14.5px; color: var(--tenue); text-align: center; }
+.btn-largo { width: 100%; padding: 14px; font-size: 17px; border-radius: 14px; }
 
 /* ---------- contenuto ---------- */
 .contenuto { max-width: 560px; margin: 0 auto; padding: 14px 14px 0; }
@@ -150,7 +192,7 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
   font-size: 17px;
   font-weight: 600;
 }
-.chiuso-emoji { font-size: 72px; line-height: 1; }
+.img-weekend { width: 200px; height: 200px; object-fit: contain; }
 .chiuso-img { width: 100%; max-width: 320px; height: auto; border-radius: 12px; }
 
 .nota { margin: 14px 0 0; text-align: center; font-size: 13px; font-style: italic; color: #000; }
