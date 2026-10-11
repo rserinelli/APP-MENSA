@@ -1,0 +1,238 @@
+:root {
+  --blu: #1c4587;
+  --blu-scuro: #14315f;
+  --azzurro: #78c5f1;
+  --crema: #fff4d4;
+  --bianco: #ffffff;
+  --inchiostro: #16284a;
+  --tenue: #5a6a8a;
+  --linea: #d6e0ef;
+  --chiuso: #eef2f8;
+  --oggi: #e0f2fe;
+  --scritta: 'Patrick Hand', 'Bradley Hand', 'Segoe Print', cursive;
+  --testo: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --alto-barra: 56px;
+  --alto-tab: 64px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+
+html { height: 100%; }
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--crema);
+  color: var(--inchiostro);
+  font-family: var(--testo);
+  font-size: 16px;
+  line-height: 1.35;
+  padding-bottom: calc(var(--alto-tab) + env(safe-area-inset-bottom, 0px) + 12px);
+}
+
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
+
+/* ---------- barra in alto ---------- */
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: calc(var(--alto-barra) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 16px 0;
+  background: var(--blu);
+  color: #fff;
+}
+.barra-titolo { margin: 0; font-family: var(--scritta); font-size: 26px; font-weight: 400; letter-spacing: .3px; }
+.btn-icona {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid rgba(255,255,255,.55);
+  border-radius: 10px;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn-icona:active { background: rgba(255,255,255,.18); }
+
+/* ---------- invito all'installazione ---------- */
+.invito {
+  margin: 12px auto 0;
+  max-width: 560px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1.5px solid var(--azzurro);
+  border-radius: 14px;
+}
+.invito p { margin: 0 0 10px; font-size: 14.5px; }
+.invito-azioni { display: flex; gap: 8px; }
+
+/* ---------- contenuto ---------- */
+.contenuto { max-width: 560px; margin: 0 auto; padding: 14px 14px 0; }
+
+.stagione {
+  font-family: var(--scritta);
+  font-size: 20px;
+  color: var(--blu);
+  background: var(--azzurro);
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+
+.nav-riga { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.nav-centro { flex: 1; text-align: center; min-width: 0; }
+.nav-titolo { margin: 0 0 4px; font-size: 19px; font-weight: 700; color: var(--blu); line-height: 1.2; }
+.chip {
+  display: inline-block;
+  font-size: 14px; font-weight: 700;
+  color: var(--blu);
+  background: rgba(28, 69, 135, .1);
+  padding: 2px 12px;
+  border-radius: 20px;
+}
+.chip:empty { display: none; }
+
+.btn-freccia {
+  flex: none;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  font-size: 18px;
+  color: var(--blu);
+  background: #fff;
+  border: 2px solid var(--blu);
+  border-radius: 12px;
+}
+.btn-freccia:active:not(:disabled) { background: var(--blu); color: #fff; }
+.btn-freccia:disabled { opacity: .3; cursor: not-allowed; border-color: #b8c4d9; color: #8a97b0; }
+
+.azioni-riga { display: flex; justify-content: center; gap: 10px; margin: 12px 0 14px; flex-wrap: wrap; }
+.btn-pieno, .btn-bordo, .btn-testo {
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.btn-pieno { background: var(--blu); color: #fff; border: 2px solid var(--blu); }
+.btn-bordo { background: #fff; color: var(--blu); border: 2px solid var(--blu); }
+.btn-testo { background: transparent; color: var(--tenue); border: 2px solid transparent; }
+.btn-pieno:active { background: var(--blu-scuro); }
+.btn-bordo:active { background: var(--oggi); }
+
+/* ---------- vista giorno ---------- */
+.piatti { display: flex; flex-direction: column; gap: 8px; touch-action: pan-y; }
+.piatto {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff;
+  border: 1.5px solid var(--blu);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.piatto-emoji { flex: none; width: 36px; text-align: center; font-size: 28px; line-height: 1; }
+.piatto-categoria { font-size: 12px; color: var(--blu); opacity: .65; letter-spacing: .3px; }
+.piatto-nome { font-size: 17px; font-weight: 600; color: var(--blu); line-height: 1.25; }
+.infanzia { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 400; font-style: italic; color: var(--tenue); }
+
+.chiuso-box {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 22px 16px;
+  background: #fff;
+  border: 2px dashed var(--blu);
+  border-radius: 14px;
+  text-align: center;
+  color: var(--blu);
+  font-size: 17px;
+  font-weight: 600;
+}
+.chiuso-emoji { font-size: 72px; line-height: 1; }
+.chiuso-img { width: 100%; max-width: 320px; height: auto; border-radius: 12px; }
+
+.nota { margin: 14px 0 0; text-align: center; font-size: 13px; font-style: italic; color: #000; }
+
+/* ---------- vista mese ---------- */
+.settimane { display: flex; flex-direction: column; gap: 18px; }
+.sett-titolo {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin: 0 0 8px; padding: 0 2px;
+  font-size: 15px; font-weight: 700; color: var(--blu);
+}
+.sett-titolo small { font-size: 13px; font-weight: 400; color: var(--tenue); }
+.giorni { display: flex; flex-direction: column; gap: 8px; }
+
+.giorno-card {
+  display: flex; align-items: stretch; gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1.5px solid var(--linea);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.giorno-card:active { border-color: var(--blu); }
+.giorno-data {
+  flex: none; width: 46px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding-top: 2px;
+  color: var(--blu);
+}
+.giorno-data .gg { font-size: 12px; font-weight: 600; opacity: .75; }
+.giorno-data .nn { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.giorno-menu { flex: 1; min-width: 0; font-size: 14.5px; line-height: 1.3; }
+.giorno-menu div { padding: 1px 0; }
+.giorno-menu .pane { color: var(--tenue); }
+.giorno-menu small { display: block; font-size: 12.5px; font-style: italic; color: var(--tenue); }
+
+.giorno-card.chiuso { background: var(--chiuso); border-color: transparent; }
+.giorno-card.chiuso .giorno-menu { color: var(--tenue); font-style: italic; align-self: center; }
+.giorno-card.oggi { background: var(--oggi); border: 2px solid #38bdf8; }
+.giorno-card.oggi .giorno-data .nn { color: #0369a1; }
+
+/* ---------- barra delle sezioni ---------- */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  display: flex;
+  height: calc(var(--alto-tab) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #fff;
+  border-top: 1px solid var(--linea);
+}
+.tab {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  background: transparent; border: 0;
+  color: var(--tenue);
+  font-size: 12.5px; font-weight: 600;
+}
+.tab.attiva { color: var(--blu); }
+.tab.attiva svg { stroke-width: 2.6; }
+
+/* ---------- messaggio breve ---------- */
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--alto-tab) + env(safe-area-inset-bottom, 0px) + 16px);
+  z-index: 30;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  background: var(--blu-scuro); color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---------- schermi larghi (tablet / computer) ---------- */
+@media (min-width: 900px) {
+  .contenuto { max-width: 1080px; }
+  #vista-oggi { max-width: 520px; margin: 0 auto; }
+  .giorni { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .giorno-card { flex-direction: column; gap: 6px; height: 100%; }
+  .giorno-data { flex-direction: row; width: auto; gap: 8px; align-items: baseline; padding: 0; }
+  .giorno-data .nn { font-size: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
