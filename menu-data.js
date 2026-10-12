@@ -27,26 +27,50 @@ self.MENU = {
   //     "immagini/autunno.jpg"  (funziona anche senza connessione)
   // Vale anche per le immagini delle chiusure qui sotto.
   iconeWeekend: {
-    primavera: "https://media.istockphoto.com/id/157107434/vector/colorful-cartoon-of-happy-children-jumping.jpg?s=612x612&w=0&k=20&c=VGWvawaGKpGBMzAmJpRE7uj60tmplBqtvFMX2rl0nvY=",
-    estate: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKjDUs8iU3yBvWoowEtY9M16-2HyutxewuEUJuBlR0CVnGp20xR1hc6YM9&s=10",
-    autunno: "https://i.etsystatic.com/47613973/r/il/07e6e2/7037296905/il_1588xN.7037296905_7f9d.jpg",
-    inverno: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0BTqXATbkPem0oC0Qk0DmRQyPykpYdQYLzdU-LHiraSTTzVxl3I3t6LY&s=10"
+    primavera: "immagini fisiche/Primavera.png",
+    estate: "immagini fisiche/Estate.png",
+    autunno: "immagini fisiche/autunno.png",
+    inverno: "immagini fisiche/inverno.png"
   },
 
   // ---- Chiusure straordinarie (primo e ultimo giorno inclusi) ----
   // "immagine" e' l'immagine mostrata nei giorni di chiusura.
   chiusure: [
     {
+      da: "2026-11-02", a: "2026-11-02",
+      etichetta: "Commemorazione dei defunti",
+      testo: "Mensa chiusa per Commemorazione dei defunti",
+      immagine: "immagini fisiche/2nov - morti.png"
+    },
+    {
+      da: "2026-12-07", a: "2026-12-08",
+      etichetta: "Ponte dell'Immacolata",
+      testo: "Mensa chiusa per il Ponte dell'Immacolata",
+      immagine: "immagini fisiche/8dic - Immacolata.png"
+    },
+    {
       da: "2026-12-23", a: "2027-01-06",
       etichetta: "Vacanze di Natale",
       testo: "Mensa chiusa per le vacanze di Natale",
-      immagine: "https://lacapannadelsilenzio.it/wp-content/uploads/2015/12/nativit%C3%A0-36.jpg"
+      immagine: "immagini fisiche/Natale.png"
     },
     {
       da: "2027-03-25", a: "2027-03-30",
       etichetta: "Vacanze di Pasqua",
       testo: "Mensa chiusa per le vacanze di Pasqua",
       immagine: "immagini fisiche/pasqua.png"
+    },
+    {
+      da: "2027-05-31", a: "2027-06-02",
+      etichetta: "Ponte del 2 Giugno",
+      testo: "Ponte della Festa della Repubblica",
+      immagine: "immagini fisiche/2giu - repubblica.png"
+    },
+    {
+      da: "2027-06-28", a: "2027-06-29",
+      etichetta: "Ponte dei Santi Pietro e Paolo",
+      testo: "Ponte dei Santi Pietro e Paolo",
+      immagine: "immagini fisiche/29giu -  Santi Pietro e Paolo.png"
     }
   ],
 
