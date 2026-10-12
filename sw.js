@@ -1,9 +1,19 @@
 // Service worker: permette di aprire l'app anche senza connessione.
 // Strategia: prima la rete (sempre con controllo di versione, cosi' i menu aggiornati
 // arrivano subito e i file non si mescolano), poi la copia salvata se manca la connessione.
-const CACHE = 'menu-mensa-v4';
+// menu-data.js e' letto anche qui, per salvare in anticipo le immagini messe nella cartella "immagini"
+try { importScripts('menu-data.js'); } catch (err) { /* non bloccante */ }
+const CACHE = 'menu-mensa-v6';
 const FILE = ['./', 'index.html', 'style.css', 'app.js', 'menu-data.js',
-              'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+              'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
+              'icons/favicon-48.png', 'img/barbarigo.png', 'icons/apple-touch-icon.png'];
+
+// Immagini locali indicate in menu-data.js (quelle con un link http restano esterne)
+function immaginiLocali() {
+  const m = self.MENU || {};
+  const lista = Object.values(m.iconeWeekend || {}).concat((m.chiusure || []).map(c => c.immagine));
+  return lista.filter(x => x && !/^(https?:)?\/\//i.test(x));
+}
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -11,6 +21,10 @@ self.addEventListener('install', e => {
       .then(c => Promise.all(FILE.map(f =>
         fetch(new Request(f, { cache: 'reload' })).then(r => { if (!r.ok) throw new Error(f); return c.put(f, r); })
       )))
+      // le immagini locali si salvano senza far fallire l'installazione se un file manca
+      .then(() => caches.open(CACHE).then(c => Promise.all(immaginiLocali().map(f =>
+        fetch(new Request(f, { cache: 'reload' })).then(r => r.ok ? c.put(f, r) : null).catch(() => null)
+      ))))
       .then(() => self.skipWaiting())
   );
 });

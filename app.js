@@ -1,5 +1,13 @@
 (function () {
   'use strict';
+
+  // Zoom bloccato: niente pizzico con le dita
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (nome) {
+    document.addEventListener(nome, function (e) { e.preventDefault(); }, { passive: false });
+  });
+  document.addEventListener('touchmove', function (e) {
+    if (e.touches && e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
   var M = window.MENU;
 
   // ---------- utilita' ----------
@@ -235,25 +243,13 @@
     if (nuovo >= PRIMO_MESE && nuovo <= ULTIMO_MESE) { meseVisto = nuovo; disegnaMese(false); window.scrollTo(0, 0); }
   }
 
-  function cardGiorno(d) {
-    var k = ymd(d);
-    var st = stato(d);
-    var classi = 'giorno-card';
-    var corpo;
-    if (st.tipo === 'aperto' && st.menu) {
-      corpo = PORTATE.map(function (p) {
-        var v = dividi(st.menu[p[0]]);
-        return '<div' + (p[0] === 'pane' ? ' class="pane"' : '') + '>' + esc(v.nome) +
-          (v.infanzia ? '<small>' + esc(v.infanzia) + '</small>' : '') + '</div>';
-      }).join('');
-    } else {
-      classi += ' chiuso';
-      corpo = 'Mensa chiusa' + (st.chiusura ? ' &middot; ' + esc(st.chiusura.etichetta) : '');
-    }
-    if (k === ymd(oggi())) classi += ' oggi';
-    return '<button class="' + classi + '" data-giorno="' + k + '">' +
-      '<span class="giorno-data"><span class="gg">' + GIORNI_BREVI[d.getDay()] + '</span><span class="nn">' + d.getDate() + '</span></span>' +
-      '<span class="giorno-menu">' + corpo + '</span></button>';
+  var GIORNI_COL = 5;
+
+  function celleMenu(menu) {
+    return PORTATE.map(function (p) {
+      var v = dividi(menu[p[0]]);
+      return '<div>' + esc(v.nome) + (v.infanzia ? ' <span class="infanzia-text">(' + esc(v.infanzia) + ')</span>' : '') + '</div>';
+    }).join('');
   }
 
   function disegnaMese() {
@@ -264,31 +260,46 @@
     $('mese-succ').disabled = meseVisto >= ULTIMO_MESE;
 
     var ultimo = new Date(anno, mese + 1, 0).getDate();
-    var settimane = [], corrente = [];
+    var settimane = [], corrente = {}, haDati = false;
     for (var g = 1; g <= ultimo; g++) {
       var d = new Date(anno, mese, g);
       var dow = d.getDay();
-      if (dow === 1 && corrente.length) { settimane.push(corrente); corrente = []; }
-      if (dow >= 1 && dow <= 5) corrente.push(d);
+      if (dow === 1 && haDati) { settimane.push(corrente); corrente = {}; haDati = false; }
+      if (dow >= 1 && dow <= 5) { corrente[dow] = d; haDati = true; }
+      if (g === ultimo && haDati) settimane.push(corrente);
     }
-    if (corrente.length) settimane.push(corrente);
 
-    var html = settimane.map(function (sett) {
-      var primo = sett[0], ultimoG = sett[sett.length - 1];
-      var etichetta = 'Fuori periodo';
-      for (var i = 0; i < sett.length; i++) {
-        if (!fuoriPeriodo(sett[i])) { etichetta = 'Settimana ' + ROMANI[settimanaCiclo(sett[i]) - 1]; break; }
+    var todayKey = ymd(oggi());
+    var righe = settimane.map(function (sett) {
+      var etichetta = '--';
+      for (var i = 1; i <= GIORNI_COL; i++) {
+        if (sett[i] && !fuoriPeriodo(sett[i])) { etichetta = ROMANI[settimanaCiclo(sett[i]) - 1]; break; }
       }
-      var intervallo = primo.getDate() + '–' + ultimoG.getDate() + ' ' + MESI_BREVI[mese];
-      return '<section class="settimana"><h3 class="sett-titolo"><span>' + etichetta + '</span><small>' + intervallo + '</small></h3>' +
-        '<div class="giorni">' + sett.map(cardGiorno).join('') + '</div></section>';
+      var riga = '<tr><td class="week-label-cell">Sett. ' + etichetta + '</td>';
+      for (var c = 1; c <= GIORNI_COL; c++) {
+        var dd = sett[c];
+        if (!dd) { riga += '<td class="empty-cell"></td>'; continue; }
+        var k = ymd(dd);
+        var st = stato(dd);
+        var classe = (k === todayKey) ? ' class="today-active"' : '';
+        var attr = ' data-giorno="' + k + '"';
+        if (st.tipo === 'aperto' && st.menu) {
+          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' +
+            '<div class="food-container">' + celleMenu(st.menu) + '</div></td>';
+        } else {
+          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' +
+            '<div class="closed-canteen">Mensa chiusa</div>' +
+            (st.chiusura ? '<div class="closed-label">' + esc(st.chiusura.etichetta) + '</div>' : '') + '</td>';
+        }
+      }
+      return riga + '</tr>';
     }).join('');
-    $('settimane').innerHTML = html;
+    $('calendar-body').innerHTML = righe;
   }
 
   function scorriSuOggi() {
-    var el = document.querySelector('.giorno-card.oggi');
-    if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center' });
+    var el = document.querySelector('.calendar-table td.today-active');
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', inline: 'center' });
   }
 
   // ---------- installazione ----------
@@ -365,7 +376,7 @@
   $('btn-condividi-giorno').addEventListener('click', function () {
     condividi('Menù mensa', testoGiorno(giorno));
   });
-  $('btn-condividi-app').addEventListener('click', function () {
+  $('tab-condividi').addEventListener('click', function () {
     condividi('Menù Mensa', 'Il menù della mensa, ogni giorno e ogni mese. Aprilo qui:');
   });
 
@@ -373,8 +384,8 @@
   $('mese-succ').addEventListener('click', function () { cambiaMese(1); });
   $('mese-oggi').addEventListener('click', function () { meseVisto = meseCorrente(); mostraScheda('mese', true); });
 
-  $('settimane').addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.giorno-card') : null;
+  $('calendar-body').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('td[data-giorno]') : null;
     if (!b) return;
     giorno = dentroPeriodo(parse(b.getAttribute('data-giorno')));
     mostraScheda('oggi');

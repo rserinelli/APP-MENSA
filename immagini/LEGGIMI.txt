@@ -1,0 +1,8 @@
+Cartella per le immagini dell'app (weekend, Natale, Pasqua).
+
+1. Copia qui i tuoi file, per esempio: primavera.jpg, estate.jpg, autunno.jpg, inverno.jpg, natale.jpg, pasqua.jpg
+2. Apri menu-data.js e al posto del link scrivi il nome del file, per esempio:
+      autunno: "immagini/autunno.jpg",
+3. Ricarica sul sito tutta la cartella dell'app.
+
+Consiglio: immagini non troppo pesanti (sotto 300 KB l'una) e senza spazi nel nome.

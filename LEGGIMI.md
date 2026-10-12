@@ -47,6 +47,9 @@ I genitori vedono il menù aggiornato alla prossima apertura dell'app con connes
 Di solito succede quando sul sito sono stati caricati solo alcuni file e non tutti. Ricarica **sempre l'intera cartella** (tutti i file e la cartella `icons`).
 L'app ora si accorge da sola del problema: dopo pochi secondi compare il pulsante **Ripara e ricarica**.
 
+## Immagini del weekend, di Natale e di Pasqua
+Possono essere un link oppure file tuoi: copiali nella cartella `immagini` e in `menu-data.js` scrivi il nome, per esempio `autunno: "immagini/autunno.jpg"`. I file della cartella funzionano anche senza connessione.
+
 ## Note
 - Chiunque abbia il link può aprire l'app: contiene solo il menù, nessun dato personale.
 - Le immagini di Natale e Pasqua vengono da altri siti e si vedono solo online; l'emoji compare sempre.

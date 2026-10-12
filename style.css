@@ -18,9 +18,19 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
 
-html { height: 100%; }
+html {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  touch-action: pan-x pan-y;          /* niente zoom con le dita ne' con il doppio tocco */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 body {
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  touch-action: pan-x pan-y;
   min-height: 100%;
   background: var(--crema);
   color: var(--inchiostro);
@@ -33,47 +43,61 @@ body {
 button { font: inherit; color: inherit; cursor: pointer; }
 button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 
-/* ---------- barra in alto ---------- */
-.barra {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: calc(var(--alto-barra) + env(safe-area-inset-top, 0px));
-  padding: env(safe-area-inset-top, 0px) 16px 0;
+/* ---------- testata centrata ---------- */
+.testata {
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 12px;
   background: var(--blu);
-  color: #fff;
+  text-align: center;
 }
-.barra-titolo { margin: 0; font-family: var(--scritta); font-size: 26px; font-weight: 400; letter-spacing: .3px; }
-.btn-icona {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 12px;
-  border: 1.5px solid rgba(255,255,255,.55);
-  border-radius: 10px;
-  background: transparent;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
+.testata-titolo { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 400; }
+.testata-menu {
+  font-family: 'Cinzel', 'Trajan Pro', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: .38em;
+  text-indent: .38em;           /* compensa lo spazio dopo l'ultima lettera: resta centrato */
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff1b8 0%, #e8c25a 38%, #b9811c 58%, #f0cf6e 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .55));
 }
-.btn-icona:active { background: rgba(255,255,255,.18); }
+.testata-logo {
+  display: block;
+  width: min(100%, 380px);
+  height: auto;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .4));
+}
 
 /* ---------- pulsante "Scarica l'app" ---------- */
-.scarica { margin-bottom: 14px; text-align: center; }
+.scarica { margin: 4px 0 16px; }
 .btn-scarica {
+  position: relative;
   width: 100%;
-  min-height: 60px;
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  padding: 12px 18px;
-  background: var(--blu); color: #fff;
-  border: 0; border-radius: 16px;
-  font-size: 20px; font-weight: 700;
-  box-shadow: 0 4px 0 var(--blu-scuro);
+  min-height: 84px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: 12px 16px;
+  color: var(--blu-scuro);
+  background: linear-gradient(180deg, #ffe58f 0%, #f4b93a 52%, #dc9a1c 100%);
+  border: 3px solid #a56f0a;
+  border-radius: 20px;
+  box-shadow: 0 6px 0 #7d5207, 0 10px 22px rgba(160, 105, 10, .45);
+  animation: pulsa 2.2s ease-in-out infinite;
 }
-.btn-scarica:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--blu-scuro); }
-.scarica-sotto { margin: 8px 0 0; font-size: 13.5px; color: var(--tenue); }
+.btn-scarica:active { transform: translateY(3px); box-shadow: 0 3px 0 #7d5207, 0 5px 12px rgba(160, 105, 10, .4); animation: none; }
+.scarica-icona {
+  flex: none; width: 52px; height: 52px;
+  display: grid; place-items: center;
+  background: var(--blu); color: #ffe58f;
+  border-radius: 50%;
+}
+.scarica-testi { display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.15; }
+.scarica-titolo { font-size: 27px; font-weight: 800; letter-spacing: .5px; }
+.scarica-sotto { margin-top: 3px; font-size: 14px; font-weight: 600; opacity: .85; }
+@keyframes pulsa {
+  0%, 100% { box-shadow: 0 6px 0 #7d5207, 0 10px 22px rgba(160, 105, 10, .45), 0 0 0 0 rgba(244, 185, 58, .65); }
+  50%      { box-shadow: 0 6px 0 #7d5207, 0 10px 22px rgba(160, 105, 10, .45), 0 0 0 14px rgba(244, 185, 58, 0); }
+}
 
 /* ---------- guida passo passo ---------- */
 .guida {
@@ -115,7 +139,8 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .btn-largo { width: 100%; padding: 14px; font-size: 17px; border-radius: 14px; }
 
 /* ---------- contenuto ---------- */
-.contenuto { max-width: 560px; margin: 0 auto; padding: 14px 14px 0; }
+.contenuto { width: 100%; max-width: 560px; margin: 0 auto; padding: 14px 14px 0; }
+.contenuto > * { min-width: 0; max-width: 100%; }
 
 .stagione {
   font-family: var(--scritta);
@@ -197,43 +222,100 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 
 .nota { margin: 14px 0 0; text-align: center; font-size: 13px; font-style: italic; color: #000; }
 
-/* ---------- vista mese ---------- */
-.settimane { display: flex; flex-direction: column; gap: 18px; }
-.sett-titolo {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
-  margin: 0 0 8px; padding: 0 2px;
-  font-size: 15px; font-weight: 700; color: var(--blu);
-}
-.sett-titolo small { font-size: 13px; font-weight: 400; color: var(--tenue); }
-.giorni { display: flex; flex-direction: column; gap: 8px; }
-
-.giorno-card {
-  display: flex; align-items: stretch; gap: 12px;
+/* ---------- vista mese (tabella, come nello script mensile) ---------- */
+.calendar-wrapper {
   width: 100%;
-  text-align: left;
-  background: #fff;
-  border: 1.5px solid var(--linea);
-  border-radius: 12px;
-  padding: 10px 12px;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
 }
-.giorno-card:active { border-color: var(--blu); }
-.giorno-data {
-  flex: none; width: 46px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  padding-top: 2px;
-  color: var(--blu);
+.calendar-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
 }
-.giorno-data .gg { font-size: 12px; font-weight: 600; opacity: .75; }
-.giorno-data .nn { font-size: 24px; font-weight: 700; line-height: 1.1; }
-.giorno-menu { flex: 1; min-width: 0; font-size: 14.5px; line-height: 1.3; }
-.giorno-menu div { padding: 1px 0; }
-.giorno-menu .pane { color: var(--tenue); }
-.giorno-menu small { display: block; font-size: 12.5px; font-style: italic; color: var(--tenue); }
-
-.giorno-card.chiuso { background: var(--chiuso); border-color: transparent; }
-.giorno-card.chiuso .giorno-menu { color: var(--tenue); font-style: italic; align-self: center; }
-.giorno-card.oggi { background: var(--oggi); border: 2px solid #38bdf8; }
-.giorno-card.oggi .giorno-data .nn { color: #0369a1; }
+.calendar-table th {
+  background-color: #1a436d;
+  color: white;
+  padding: 12px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 2px solid #112d4e;
+  text-align: center;
+}
+.calendar-table th.week-label-head,
+.calendar-table td.week-label-cell {
+  width: 15%;
+  background-color: #f8fafc;
+  color: #1a436d;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+.calendar-table th.week-label-head { background-color: #1a436d; color: #fff; }
+.calendar-table td {
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 6px;
+  vertical-align: top;
+  height: 140px;
+  background-color: #ffffff;
+  font-size: 12px;
+}
+.calendar-table td:last-child { border-right: none; }
+.calendar-table td.empty-cell { background-color: #f1f5f9; }
+.calendar-table td[data-giorno] { cursor: pointer; }
+.day-number {
+  font-size: 14px;
+  font-weight: bold;
+  color: #b91c1c;
+  margin-bottom: 6px;
+  display: inline-block;
+  background: #fef2f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.food-container { line-height: 1.4; text-align: left; color: #334155; }
+.food-container div { margin-bottom: 4px; white-space: normal; overflow: hidden; }
+.closed-canteen { color: #64748b; font-style: italic; margin-top: 15px; text-align: center; }
+.closed-label { color: #64748b; font-size: 10px; text-align: center; font-style: italic; }
+.calendar-table td.today-active { background-color: #e0f2fe !important; box-shadow: inset 0 0 0 2px #38bdf8; }
+.calendar-table td.today-active .day-number { color: #0369a1 !important; background: #f0f9ff; }
+.calendar-table td.today-active .food-container { color: #0369a1 !important; font-weight: bold; }
+.infanzia-text { font-size: 10px; color: #64748b; font-style: italic; display: block; margin-top: 1px; font-weight: 400; }
+.footer-note { font-style: italic; color: #64748b; font-size: 11px; margin: 10px 0 0; text-align: left; }
+.scroll-hint {
+  display: none;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  text-align: center;
+  font-size: 12px;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 1px solid #bae6fd;
+}
+@media screen and (max-width: 768px) {
+  .scroll-hint { display: block; }
+  .calendar-table { min-width: 680px; }
+  .calendar-table td { height: auto !important; min-height: 105px; padding: 5px 4px !important; font-size: 10px !important; }
+  .calendar-table th { font-size: 11px !important; padding: 6px 2px !important; }
+  .calendar-table th.week-label-head, .calendar-table td.week-label-cell { font-size: 10px !important; }
+  .day-number { font-size: 11px !important; padding: 1px 4px !important; margin-bottom: 3px !important; }
+  .food-container { line-height: 1.2 !important; }
+  .food-container div { margin-bottom: 3px !important; }
+  .closed-canteen { margin-top: 5px !important; font-size: 10px !important; }
+}
 
 /* ---------- barra delle sezioni ---------- */
 .tabbar {
@@ -287,10 +369,6 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 @media (min-width: 900px) {
   .contenuto { max-width: 1080px; }
   #vista-oggi { max-width: 520px; margin: 0 auto; }
-  .giorni { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-  .giorno-card { flex-direction: column; gap: 6px; height: 100%; }
-  .giorno-data { flex-direction: row; width: auto; gap: 8px; align-items: baseline; padding: 0; }
-  .giorno-data .nn { font-size: 20px; }
 }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } }

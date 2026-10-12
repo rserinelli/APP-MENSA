@@ -3,7 +3,7 @@
 //  Dopo la modifica ricarica questo file sul sito: i genitori vedranno il
 //  nuovo menu alla prossima apertura dell'app (serve la connessione).
 // ============================================================================
-window.MENU = {
+self.MENU = {
 
   // ---- Anno scolastico (compare nel titolo: "Menu Estivo 2026/27") ----
   anno: "2026/27",
@@ -21,6 +21,11 @@ window.MENU = {
   mesiInvernali: [11, 12, 1, 2, 3, 4],
 
   // ---- Immagini del fine settimana (cambiano con la stagione) ----
+  // Per ogni immagine puoi scrivere:
+  //   - un LINK (come adesso), oppure
+  //   - il nome di un FILE messo nella cartella "immagini" dell'app, ad esempio
+  //     "immagini/autunno.jpg"  (funziona anche senza connessione)
+  // Vale anche per le immagini delle chiusure qui sotto.
   iconeWeekend: {
     primavera: "https://media.istockphoto.com/id/157107434/vector/colorful-cartoon-of-happy-children-jumping.jpg?s=612x612&w=0&k=20&c=VGWvawaGKpGBMzAmJpRE7uj60tmplBqtvFMX2rl0nvY=",
     estate: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKjDUs8iU3yBvWoowEtY9M16-2HyutxewuEUJuBlR0CVnGp20xR1hc6YM9&s=10",
