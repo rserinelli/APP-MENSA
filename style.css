@@ -297,7 +297,7 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .calendar-table td.today-active .day-number { color: #0369a1 !important; background: #f0f9ff; }
 .calendar-table td.today-active .food-container { color: #0369a1 !important; font-weight: bold; }
 .infanzia-text { font-size: 10px; color: #64748b; font-style: italic; display: block; margin-top: 1px; font-weight: 400; }
-.footer-note { font-style: italic; color: #64748b; font-size: 11px; margin: 10px 0 0; text-align: left; }
+.footer-note { font-style: italic; color: #64748b; font-size: 11px; margin: 10px 0 0; text-align: right; }
 .scroll-hint {
   display: none;
   background-color: #e0f2fe;
