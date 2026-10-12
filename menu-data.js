@@ -39,13 +39,13 @@ self.MENU = {
     {
       da: "2026-11-02", a: "2026-11-02",
       etichetta: "Commemorazione dei defunti",
-      testo: "Mensa chiusa per Commemorazione dei defunti",
+      testo: "Mensa chiusa||Commemorazione dei defunti",
       immagine: "immagini fisiche/2nov - morti.png"
     },
     {
       da: "2026-12-07", a: "2026-12-08",
       etichetta: "Ponte dell'Immacolata",
-      testo: "Mensa chiusa per il Ponte dell'Immacolata",
+      testo: "Mensa chiusa||Ponte dell'Immacolata",
       immagine: "immagini fisiche/8dic - Immacolata.png"
     },
     {
