@@ -45,7 +45,7 @@
     </button>
   </div>
 
-  <div class="stagione" id="stagione" role="status"></div>
+  <button type="button" class="stagione" id="stagione" aria-label="Apri il menù in PDF"></button>
 
   <!-- ========== VISTA GIORNALIERA ========== -->
   <section id="vista-oggi" aria-labelledby="data-titolo">
@@ -77,17 +77,6 @@
     <div class="azioni-riga">
       <button class="btn-pieno" id="mese-oggi">Torna a oggi</button>
     </div>
-    <div class="pdf-riga">
-      <div class="pdf-titolo">Stampa il menù in PDF</div>
-      <div class="pdf-bottoni">
-        <button class="btn-pdf" id="btn-pdf-estivo" type="button">
-          <span class="pdf-emoji" aria-hidden="true">☀️</span><span>Menù estivo</span>
-        </button>
-        <button class="btn-pdf" id="btn-pdf-invernale" type="button">
-          <span class="pdf-emoji" aria-hidden="true">❄️</span><span>Menù invernale</span>
-        </button>
-      </div>
-    </div>
     <div class="scroll-hint">&harr; Scorri di lato per vedere tutta la settimana</div>
     <div class="calendar-wrapper">
       <table class="calendar-table">
@@ -106,8 +95,9 @@
     </div>
     <p id="nota-mese" class="footer-note">*prodotto surgelato</p>
   </section>
-  <p class="piede"><a class="link-locandina" href="locandina.html">🖨️ Locandina con QR da stampare o inviare</a></p>
 </main>
+
+<footer class="firma">by R.Serinelli</footer>
 
 <!-- Menù pronto per la stampa / PDF: si vede solo quando si stampa -->
 <div id="stampa-menu" aria-hidden="true"></div>

@@ -31,7 +31,8 @@ body {
   width: 100%;
   overflow-x: hidden;
   touch-action: pan-x pan-y;
-  min-height: 100%;
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column;
   background: var(--crema);
   color: var(--inchiostro);
   font-family: var(--testo);
@@ -140,10 +141,11 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .btn-largo { width: 100%; padding: 14px; font-size: 17px; border-radius: 14px; }
 
 /* ---------- contenuto ---------- */
-.contenuto { width: 100%; max-width: 560px; margin: 0 auto; padding: 14px 14px 0; }
+.contenuto { width: 100%; max-width: 560px; margin: 0 auto; padding: 14px 14px 0; flex: 1 0 auto; }
 .contenuto > * { min-width: 0; max-width: 100%; }
 
 .stagione {
+  display: block; width: 100%; border: 0; cursor: pointer;
   font-family: var(--scritta);
   font-size: 20px;
   color: var(--blu);
@@ -153,6 +155,8 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
   border-radius: 16px;
   margin-bottom: 14px;
 }
+.stagione::after { content: ' \1F4C4'; font-size: 16px; opacity: .75; }
+.stagione:active { background: #5fb4e6; }
 
 .nav-riga { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .nav-centro { flex: 1; text-align: center; min-width: 0; }
@@ -384,30 +388,13 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .avviso-testo { margin-top: 3px; font-size: 19px; font-weight: 700; line-height: 1.25; color: var(--inchiostro); overflow-wrap: anywhere; }
 .avviso-periodo { margin-top: 6px; font-size: 13.5px; font-weight: 600; color: #8a5a00; }
 
-/* ---------- stampa PDF del menu ---------- */
-.pdf-riga {
-  margin: 0 0 12px;
-  padding: 10px 12px 12px;
-  background: #fff;
-  border: 1.5px solid var(--linea);
-  border-radius: 14px;
+/* ---------- firma ---------- */
+.firma {
+  padding: 8px 0 4px;
   text-align: center;
+  font-size: 11.5px; font-style: italic;
+  color: var(--tenue);
 }
-.pdf-titolo { margin-bottom: 8px; font-size: 14px; font-weight: 700; color: var(--tenue); }
-.pdf-bottoni { display: flex; gap: 10px; }
-.btn-pdf {
-  flex: 1; min-width: 0;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  min-height: 48px; padding: 8px 6px;
-  font-size: 14px; font-weight: 700; line-height: 1.15; text-align: center;
-  color: var(--blu); background: #fff;
-  border: 2px solid var(--blu); border-radius: 12px;
-}
-.btn-pdf:active { background: var(--oggi); }
-.pdf-emoji { font-size: 17px; line-height: 1; }
-
-.piede { margin: 22px 0 6px; text-align: center; }
-.link-locandina { font-size: 14px; font-weight: 600; color: var(--blu); text-decoration: underline; text-underline-offset: 3px; }
 
 #stampa-menu { display: none; }
 
@@ -419,28 +406,26 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } }
 
-/* ---------- stampa: esce solo il menu (A4 orizzontale, 2 settimane per pagina) ---------- */
-@page { size: A4 landscape; margin: 9mm; }
+/* ---------- stampa: esce solo il menu (un solo foglio A4 orizzontale) ---------- */
+@page { size: A4 landscape; margin: 7mm; }
 @media print {
-  html, body { height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; }
+  html, body { height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; display: block !important; min-height: 0 !important; }
   body > *:not(#stampa-menu) { display: none !important; }
   #stampa-menu { display: block !important; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  .sm-pagina { break-after: page; page-break-after: always; font-family: var(--testo); color: #16284a; }
-  .sm-pagina:last-child { break-after: auto; page-break-after: auto; }
-  .sm-testata { display: flex; align-items: center; justify-content: space-between; gap: 10mm; padding-bottom: 2.5mm; margin-bottom: 4mm; border-bottom: 0.8mm solid #1c4587; }
-  .sm-logo { height: 13mm; width: auto; display: block; }
+  .sm-pagina { font-family: var(--testo); color: #16284a; break-inside: avoid; page-break-inside: avoid; }
+  .sm-testata { display: flex; align-items: center; justify-content: space-between; gap: 10mm; padding-bottom: 1.5mm; margin-bottom: 2.5mm; border-bottom: 0.7mm solid #1c4587; }
+  .sm-logo { height: 10mm; width: auto; display: block; }
   .sm-titoli { text-align: right; }
-  .sm-titolo { font-size: 20pt; font-weight: 800; color: #1c4587; line-height: 1.1; }
-  .sm-periodo { margin-top: 1mm; font-size: 10pt; color: #5a6a8a; }
-  .sm-sett { margin-bottom: 5mm; break-inside: avoid; page-break-inside: avoid; }
-  .sm-sett h3 { margin: 0 0 1.5mm; font-size: 13pt; color: #1c4587; }
+  .sm-titolo { font-size: 16pt; font-weight: 800; color: #1c4587; line-height: 1.1; }
+  .sm-periodo { margin-top: 0.5mm; font-size: 8.5pt; color: #5a6a8a; }
+  .sm-sett { margin-bottom: 2.2mm; break-inside: avoid; page-break-inside: avoid; }
   .sm-sett table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .sm-sett th, .sm-sett td { border: 0.3mm solid #b8c4d9; padding: 2mm 2mm; font-size: 10pt; line-height: 1.22; vertical-align: top; text-align: left; }
-  .sm-sett thead th { background: #1c4587; color: #fff; text-align: center; font-size: 10pt; border-color: #1c4587; }
-  .sm-sett thead th:first-child { width: 22mm; background: #fff; border-color: #fff; }
-  .sm-sett tbody th { width: 22mm; background: #eef2f8; color: #1c4587; font-size: 9.5pt; font-weight: 700; }
-  .sm-inf { display: block; margin-top: 0.6mm; font-size: 9pt; font-style: italic; color: #5a6a8a; }
-  .sm-nota { margin-top: 1mm; font-size: 9.5pt; font-style: italic; color: #5a6a8a; text-align: center; }
+  .sm-sett th, .sm-sett td { border: 0.25mm solid #b8c4d9; padding: 1mm 1.6mm; font-size: 8.3pt; line-height: 1.2; vertical-align: top; text-align: left; }
+  .sm-sett thead th { background: #1c4587; color: #fff; text-align: center; font-size: 8.5pt; border-color: #1c4587; padding: 0.9mm 1mm; }
+  .sm-sett thead th.sm-sett-nome { width: 26mm; background: #14315f; font-size: 8.5pt; white-space: nowrap; }
+  .sm-sett tbody th { width: 26mm; background: #eef2f8; color: #1c4587; font-size: 7.8pt; font-weight: 700; white-space: nowrap; }
+  .sm-inf { display: block; margin-top: 0.3mm; font-size: 7pt; font-style: italic; color: #5a6a8a; }
+  .sm-nota { margin-top: 0.5mm; font-size: 7.5pt; font-style: italic; color: #5a6a8a; text-align: center; }
 }

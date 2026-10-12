@@ -25,7 +25,7 @@ L'app deve stare su un sito con indirizzo `https://`. Due modi gratuiti:
 Manda l'indirizzo in chat. Chi lo apre trova in alto un grande pulsante **Scarica l'app**:
 
 - **Android (Chrome):** un tocco sul pulsante e il telefono chiede "Installare l'app?". Si conferma e l'icona compare tra le app.
-- **iPhone:** Apple non permette l'installazione con un solo tocco, quindi il pulsante mostra 3 passaggi illustrati (Condividi → Aggiungi alla schermata Home → Aggiungi). Il link va aperto con Safari.
+- **iPhone:** Apple non permette l'installazione con un solo tocco, quindi il pulsante mostra 4 passaggi (menu in basso a sinistra → Condividi → Aggiungi alla schermata Home → controllo di «Apri come app web» e Aggiungi). Il link va aperto con Safari.
 
 Se l'app è già installata, il pulsante non compare più.
 
@@ -37,6 +37,7 @@ Dentro l'app, il tasto **Condividi l'app** manda il link ad altri genitori e **C
 Tutto sta in **un solo file: `menu-data.js`**, scritto in chiaro.
 - Menù invernale: cerca `MENU INVERNALE` e cambia il testo tra le virgolette.
 - Menù estivo: cerca `MENU ESTIVO`.
+- Anche il PDF stampabile si aggiorna da solo con questi dati.
 - Chiusure: blocco `chiusure` (date nel formato `2026-12-23`; qui i mesi sono quelli normali, 12 = dicembre).
 - Date di inizio e fine, mesi invernali e settimana di partenza sono in cima al file.
 
@@ -57,18 +58,10 @@ In `menu-data.js`, blocco `avvisi`, scrivi un messaggio con il suo periodo di va
 - Dopo la modifica ricarica `menu-data.js` sul sito, come per il menù.
 
 ## 5. Stampa del menù in PDF
-Nella scheda **Mese** c'è il riquadro **Stampa il menù in PDF** con due pulsanti: **Menù estivo** e **Menù invernale**.
-Si apre la finestra di stampa con il menù completo (4 settimane, 2 pagine A4 orizzontali): scegli **Salva come PDF** oppure la stampante.
-Il file si chiama già "Menù Estivo 2026-27" / "Menù Invernale 2026-27".
+Basta toccare la scritta **Menù Estivo / Menù Invernale** (la fascia azzurra sopra i giorni o sopra il mese, con la piccola icona del foglio).
+Si apre la finestra di stampa con il menù completo (4 settimane) su **un solo foglio A4 orizzontale**: scegli **Salva come PDF** oppure la stampante.
+Nella vista Giorno e nella vista Mese si apre il menù della stagione che stai guardando. Il file si chiama già "Menù Estivo 2026-27" / "Menù Invernale 2026-27".
 (Su iPhone: nell'anteprima di stampa allarga due dita sulla pagina, poi tocca Condividi → Salva su File.)
-
-## 6. Locandina con QR
-In fondo all'app c'è il link **Locandina con QR da stampare o inviare** (oppure apri `locandina.html` sul sito).
-- Il QR contiene da solo l'indirizzo del sito; se serve puoi correggerlo nel campo sopra l'anteprima, oppure scriverlo una volta per sempre in `menu-data.js` (`urlApp`).
-- **Stampa o salva PDF**: pagina A4 verticale pronta.
-- **Invia nei gruppi**: condivide la locandina come immagine (su computer la scarica).
-- Contiene le istruzioni in 3 passaggi per iPhone (Safari) e Android (Chrome).
-- Controlla sempre di aver caricato sul sito anche i nuovi file: `locandina.html`, `locandina.js`, `qr.js`.
 
 ## Se l'app resta ferma su "Caricamento..."
 Di solito succede quando sul sito sono stati caricati solo alcuni file e non tutti. Ricarica **sempre l'intera cartella** (tutti i file e la cartella `icons`).

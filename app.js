@@ -336,13 +336,12 @@
     $('guida-avviso').hidden = true;
     if (isIOS) {
       elenco = [
-        ['Tocca il tasto <b>Condividi di Safari</b> (il quadrato con la freccia verso l\'alto), nella barra in basso', ICO_CONDIVIDI],
-        ['Nell\'elenco che si apre <b>scorri verso il basso</b> e tocca <b>Aggiungi alla schermata Home</b>', ICO_AGGIUNGI],
-        ['Tocca <b>Aggiungi</b> in alto a destra. L\'icona è sul tuo telefono!', ICO_SCARICA]
+        ['Nella barra in basso della pagina, tocca il <b>pulsante del menu</b> (in basso a sinistra)', ICO_PUNTINI],
+        ['Nel menu che si apre, scorri e tocca <b>Condividi</b>', ICO_CONDIVIDI],
+        ['Nell\'elenco esteso, scorri e tocca <b>Aggiungi alla schermata Home</b> (icona quadrata con il +)', ICO_AGGIUNGI],
+        ['Controlla che <b>Apri come app web</b> sia attivo (verde), poi tocca <b>Aggiungi</b> in alto a destra', ICO_SCARICA]
       ];
-      $('guida-avviso').innerHTML = '<b>Attenzione:</b> usa il tasto Condividi di <b>Safari</b>, non quello dell\'app. Quello dell\'app non ha la voce &laquo;Aggiungi alla schermata Home&raquo;.';
-      $('guida-avviso').hidden = false;
-      nota = 'Non vedi il tasto Condividi? Tocca i tre puntini in basso a destra in Safari.\nSe hai aperto il link da WhatsApp o da un\'altra app, aprilo prima con Safari.';
+      nota = 'Se hai aperto il link da WhatsApp o da un\'altra app, aprilo prima con Safari.';
     } else {
       elenco = [
         ['Tocca i <b>tre puntini</b> in alto a destra del browser', ICO_PUNTINI],
@@ -460,17 +459,16 @@
         }
         return r + '</tr>';
       }).join('');
-      return '<section class="sm-sett"><h3>Settimana ' + ROMANI[n - 1] + '</h3><table><thead><tr><th></th>' +
+      return '<section class="sm-sett"><table><thead><tr><th class="sm-sett-nome">Settimana ' + ROMANI[n - 1] + '</th>' +
         GIORNI_LUNGHI.map(function (g) { return '<th>' + g + '</th>'; }).join('') +
         '</tr></thead><tbody>' + righe + '</tbody></table></section>';
     }
 
-    var pagine = [[1, 2], [3, 4]].map(function (coppia) {
-      return '<div class="sm-pagina">' + testata() + coppia.map(tabella).join('') +
-        '<div class="sm-nota">' + (surgelati ? '* prodotto surgelato &nbsp;·&nbsp; ' : '') +
-        'Le settimane si ripetono a rotazione, secondo il calendario scolastico.</div></div>';
-    });
-    return { html: pagine.join(''), titolo: titolo };
+    var corpo = [1, 2, 3, 4].map(tabella).join('');
+    var html = '<div class="sm-pagina">' + testata() + corpo +
+      '<div class="sm-nota">' + (surgelati ? '* prodotto surgelato &nbsp;·&nbsp; ' : '') +
+      'Le settimane si ripetono a rotazione, secondo il calendario scolastico.</div></div>';
+    return { html: html, titolo: titolo };
   }
 
   var titoloPagina = document.title, timerTitolo;
@@ -518,8 +516,10 @@
     condividi('Menù Mensa', 'Il menù della mensa, ogni giorno e ogni mese. Aprilo qui:');
   });
 
-  $('btn-pdf-estivo').addEventListener('click', function () { stampaMenu(false); });
-  $('btn-pdf-invernale').addEventListener('click', function () { stampaMenu(true); });
+  // un tocco sulla scritta "Menù Estivo / Invernale" apre il PDF di quel menù
+  $('stagione').addEventListener('click', function () {
+    stampaMenu(isInverno(scheda === 'mese' ? meseVisto : giorno));
+  });
 
   $('mese-prec').addEventListener('click', function () { cambiaMese(-1); });
   $('mese-succ').addEventListener('click', function () { cambiaMese(1); });

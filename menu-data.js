@@ -20,11 +20,6 @@ self.MENU = {
   // 11 = novembre ... 4 = aprile
   mesiInvernali: [11, 12, 1, 2, 3, 4],
 
-  // ---- Indirizzo dell'app (serve per il QR della locandina) ----
-  // Di solito si puo' lasciare vuoto: la locandina usa da sola l'indirizzo del sito.
-  // Se vuoi forzarlo, scrivilo qui, per esempio:  "https://mensa-barbarigo.netlify.app/"
-  urlApp: "",
-
   // ---- AVVISI DALLA SCUOLA (riquadro giallo in alto nell'app) ----
   // Ogni avviso ha un messaggio e un periodo di validita': compare da solo
   // nei giorni indicati e sparisce da solo dopo l'ultimo giorno.
@@ -49,10 +44,10 @@ self.MENU = {
   //     "immagini/autunno.jpg"  (funziona anche senza connessione)
   // Vale anche per le immagini delle chiusure qui sotto.
   iconeWeekend: {
-    primavera: "https://media.istockphoto.com/id/157107434/vector/colorful-cartoon-of-happy-children-jumping.jpg?s=612x612&w=0&k=20&c=VGWvawaGKpGBMzAmJpRE7uj60tmplBqtvFMX2rl0nvY=",
-    estate: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKjDUs8iU3yBvWoowEtY9M16-2HyutxewuEUJuBlR0CVnGp20xR1hc6YM9&s=10",
-    autunno: "https://i.etsystatic.com/47613973/r/il/07e6e2/7037296905/il_1588xN.7037296905_7f9d.jpg",
-    inverno: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0BTqXATbkPem0oC0Qk0DmRQyPykpYdQYLzdU-LHiraSTTzVxl3I3t6LY&s=10"
+    primavera: "immagini fisiche/primavera.png",
+    estate: "immagini fisiche/estate.png",
+    autunno: "immagini fisiche/autunno.png",
+    inverno: "immagini fisiche/inverno.png"
   },
 
   // ---- Chiusure straordinarie (primo e ultimo giorno inclusi) ----
