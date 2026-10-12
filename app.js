@@ -324,13 +324,16 @@
 
   function apriGuida() {
     var elenco, nota;
+    $('guida-avviso').hidden = true;
     if (isIOS) {
       elenco = [
-        ['Tocca il tasto <b>Condividi</b> di Safari (il quadrato con la freccia verso l\'alto)', ICO_CONDIVIDI],
-        ['Scorri il menù e tocca <b>Aggiungi alla schermata Home</b>', ICO_AGGIUNGI],
+        ['Tocca il tasto <b>Condividi di Safari</b> (il quadrato con la freccia verso l\'alto), nella barra in basso', ICO_CONDIVIDI],
+        ['Nell\'elenco che si apre <b>scorri verso il basso</b> e tocca <b>Aggiungi alla schermata Home</b>', ICO_AGGIUNGI],
         ['Tocca <b>Aggiungi</b> in alto a destra. L\'icona è sul tuo telefono!', ICO_SCARICA]
       ];
-      nota = 'Non vedi il tasto Condividi? Apri questo link con Safari.';
+      $('guida-avviso').innerHTML = '<b>Attenzione:</b> usa il tasto Condividi di <b>Safari</b>, non quello dell\'app. Quello dell\'app non ha la voce &laquo;Aggiungi alla schermata Home&raquo;.';
+      $('guida-avviso').hidden = false;
+      nota = 'Non vedi il tasto Condividi? Tocca i tre puntini in basso a destra in Safari.\nSe hai aperto il link da WhatsApp o da un\'altra app, aprilo prima con Safari.';
     } else {
       elenco = [
         ['Tocca i <b>tre puntini</b> in alto a destra del browser', ICO_PUNTINI],
@@ -344,22 +347,6 @@
     $('guida').hidden = false;
     $('guida-chiudi').focus();
   }
-  // iPhone: Apple non permette di aprire da qui "Aggiungi alla schermata Home".
-  // Si apre il menu Condividi del telefono (dove la voce e' in elenco) e si mostra un avviso.
-  var timerSugg;
-  function nascondiSuggerimento() { clearTimeout(timerSugg); $('suggerimento-ios').hidden = true; }
-  function apriMenuCondividiIOS() {
-    try {
-      var r = navigator.share({ title: 'Menù Mensa Barbarigo', url: urlApp() });
-      if (r && r.catch) r.catch(function () {});
-    } catch (e) { nascondiSuggerimento(); apriGuida(); }
-  }
-  function mostraSuggerimentoIOS() {
-    $('suggerimento-ios').hidden = false;
-    clearTimeout(timerSugg);
-    timerSugg = setTimeout(nascondiSuggerimento, 30000);
-  }
-
   function chiudiGuida() { $('guida').hidden = true; $('btn-scarica').focus(); }
 
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); promptInstalla = e; });
@@ -373,16 +360,10 @@
       promptInstalla = null;
       richiesta.prompt();
       richiesta.userChoice.then(function (r) { if (r && r.outcome === 'accepted') $('blocco-scarica').hidden = true; });
-    } else if (isIOS && navigator.share) {
-      mostraSuggerimentoIOS();
-      apriMenuCondividiIOS();
     } else {
       apriGuida();
     }
   });
-  $('sugg-riapri').addEventListener('click', apriMenuCondividiIOS);
-  $('sugg-aiuto').addEventListener('click', function () { nascondiSuggerimento(); apriGuida(); });
-  $('sugg-chiudi').addEventListener('click', nascondiSuggerimento);
   $('guida-chiudi').addEventListener('click', chiudiGuida);
   $('guida').addEventListener('click', function (e) { if (e.target === $('guida')) chiudiGuida(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guida').hidden) chiudiGuida(); });
