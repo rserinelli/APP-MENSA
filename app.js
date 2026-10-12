@@ -231,8 +231,17 @@
   var PRIMO_MESE = primoDelMese(INIZIO);
   var ULTIMO_MESE = primoDelMese(FINE);
 
+  // Nel calendario mensile "oggi" e' evidenziato cosi': se oggi e' sabato o domenica,
+  // si evidenzia il primo lunedi successivo; negli altri giorni, il giorno stesso.
+  function giornoEvidenziatoMese() {
+    var t = oggi(), dow = t.getDay();
+    if (dow === 6) return addDays(t, 2);
+    if (dow === 0) return addDays(t, 1);
+    return t;
+  }
+
   function meseCorrente() {
-    var m = primoDelMese(oggi());
+    var m = primoDelMese(giornoEvidenziatoMese());
     if (m < PRIMO_MESE) return new Date(PRIMO_MESE.getTime());
     if (m > ULTIMO_MESE) return new Date(ULTIMO_MESE.getTime());
     return m;
@@ -269,7 +278,7 @@
       if (g === ultimo && haDati) settimane.push(corrente);
     }
 
-    var todayKey = ymd(oggi());
+    var todayKey = ymd(giornoEvidenziatoMese());
     var righe = settimane.map(function (sett) {
       var etichetta = '--';
       for (var i = 1; i <= GIORNI_COL; i++) {
@@ -371,7 +380,13 @@
 
   // ---------- collegamenti ----------
   $('tab-oggi').addEventListener('click', function () { mostraScheda('oggi'); });
-  $('tab-mese').addEventListener('click', function () { meseVisto = primoDelMese(giorno); mostraScheda('mese'); });
+  $('tab-mese').addEventListener('click', function () {
+    // se si sta guardando "oggi", il mese si apre sul giorno evidenziato nel calendario
+    meseVisto = primoDelMese(ymd(giorno) === ymd(oggi()) ? giornoEvidenziatoMese() : giorno);
+    if (meseVisto < PRIMO_MESE) meseVisto = new Date(PRIMO_MESE.getTime());
+    if (meseVisto > ULTIMO_MESE) meseVisto = new Date(ULTIMO_MESE.getTime());
+    mostraScheda('mese');
+  });
 
   $('giorno-prec').addEventListener('click', function () { if (ymd(giorno) > M.inizio) vaiAlGiorno(addDays(giorno, -1)); });
   $('giorno-succ').addEventListener('click', function () { if (ymd(giorno) < M.fine) vaiAlGiorno(addDays(giorno, 1)); });
