@@ -344,6 +344,22 @@
     $('guida').hidden = false;
     $('guida-chiudi').focus();
   }
+  // iPhone: Apple non permette di aprire da qui "Aggiungi alla schermata Home".
+  // Si apre il menu Condividi del telefono (dove la voce e' in elenco) e si mostra un avviso.
+  var timerSugg;
+  function nascondiSuggerimento() { clearTimeout(timerSugg); $('suggerimento-ios').hidden = true; }
+  function apriMenuCondividiIOS() {
+    try {
+      var r = navigator.share({ title: 'Menù Mensa Barbarigo', url: urlApp() });
+      if (r && r.catch) r.catch(function () {});
+    } catch (e) { nascondiSuggerimento(); apriGuida(); }
+  }
+  function mostraSuggerimentoIOS() {
+    $('suggerimento-ios').hidden = false;
+    clearTimeout(timerSugg);
+    timerSugg = setTimeout(nascondiSuggerimento, 30000);
+  }
+
   function chiudiGuida() { $('guida').hidden = true; $('btn-scarica').focus(); }
 
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); promptInstalla = e; });
@@ -357,10 +373,16 @@
       promptInstalla = null;
       richiesta.prompt();
       richiesta.userChoice.then(function (r) { if (r && r.outcome === 'accepted') $('blocco-scarica').hidden = true; });
+    } else if (isIOS && navigator.share) {
+      mostraSuggerimentoIOS();
+      apriMenuCondividiIOS();
     } else {
       apriGuida();
     }
   });
+  $('sugg-riapri').addEventListener('click', apriMenuCondividiIOS);
+  $('sugg-aiuto').addEventListener('click', function () { nascondiSuggerimento(); apriGuida(); });
+  $('sugg-chiudi').addEventListener('click', nascondiSuggerimento);
   $('guida-chiudi').addEventListener('click', chiudiGuida);
   $('guida').addEventListener('click', function (e) { if (e.target === $('guida')) chiudiGuida(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guida').hidden) chiudiGuida(); });
