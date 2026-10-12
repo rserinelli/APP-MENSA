@@ -46,7 +46,7 @@ self.MENU = {
       da: "2027-03-25", a: "2027-03-30",
       etichetta: "Vacanze di Pasqua",
       testo: "Mensa chiusa per le vacanze di Pasqua",
-      immagine: "https://www.cercoiltuovolto.it/wp-content/uploads/2022/04/resurreccio%CC%81n-fano.jpeg"
+      immagine: "immagini fisiche/pasqua.png"
     }
   ],
 
