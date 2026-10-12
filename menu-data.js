@@ -10,7 +10,7 @@ self.MENU = {
 
   // ---- Date: formato AAAA-MM-GG (qui i mesi sono quelli normali: 09 = settembre) ----
   inizio: "2026-09-14",   // primo giorno di mensa (deve essere un lunedi)
-  fine:   "2027-06-30",   // ultimo giorno di mensa
+  fine:   "2027-06-25",   // ultimo giorno di mensa
 
   // Settimana del ciclo (1-4) che corrisponde al primo lunedi.
   // Con 2, il 14 settembre 2026 e' la Settimana II.
@@ -20,6 +20,28 @@ self.MENU = {
   // 11 = novembre ... 4 = aprile
   mesiInvernali: [11, 12, 1, 2, 3, 4],
 
+  // ---- Indirizzo dell'app (serve per il QR della locandina) ----
+  // Di solito si puo' lasciare vuoto: la locandina usa da sola l'indirizzo del sito.
+  // Se vuoi forzarlo, scrivilo qui, per esempio:  "https://mensa-barbarigo.netlify.app/"
+  urlApp: "",
+
+  // ---- AVVISI DALLA SCUOLA (riquadro giallo in alto nell'app) ----
+  // Ogni avviso ha un messaggio e un periodo di validita': compare da solo
+  // nei giorni indicati e sparisce da solo dopo l'ultimo giorno.
+  //   da: primo giorno in cui si vede     (AAAA-MM-GG, mese normale: 10 = ottobre)
+  //   a:  ultimo giorno in cui si vede    (AAAA-MM-GG)
+  //   testo: il messaggio
+  //   titolo: (facoltativo) per esempio "Cambio menù"; se manca scrive "Avviso dalla scuola"
+  // Puoi metterne piu' di uno, uno dopo l'altro, separati da una virgola.
+  // Per non mostrare nessun avviso lascia l'elenco vuoto:  avvisi: [],
+  //
+  // ESEMPIO (togli le due barre // davanti a ogni riga per attivarlo):
+  //   { da: "2026-10-12", a: "2026-10-15",
+  //     titolo: "Cambio menù",
+  //     testo: "Questo giovedì: secondo formaggini" },
+  avvisi: [
+  ],
+
   // ---- Immagini del fine settimana (cambiano con la stagione) ----
   // Per ogni immagine puoi scrivere:
   //   - un LINK (come adesso), oppure
@@ -27,10 +49,10 @@ self.MENU = {
   //     "immagini/autunno.jpg"  (funziona anche senza connessione)
   // Vale anche per le immagini delle chiusure qui sotto.
   iconeWeekend: {
-    primavera: "immagini fisiche/Primavera.png",
-    estate: "immagini fisiche/Estate.png",
-    autunno: "immagini fisiche/autunno.png",
-    inverno: "immagini fisiche/inverno.png"
+    primavera: "https://media.istockphoto.com/id/157107434/vector/colorful-cartoon-of-happy-children-jumping.jpg?s=612x612&w=0&k=20&c=VGWvawaGKpGBMzAmJpRE7uj60tmplBqtvFMX2rl0nvY=",
+    estate: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKjDUs8iU3yBvWoowEtY9M16-2HyutxewuEUJuBlR0CVnGp20xR1hc6YM9&s=10",
+    autunno: "https://i.etsystatic.com/47613973/r/il/07e6e2/7037296905/il_1588xN.7037296905_7f9d.jpg",
+    inverno: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0BTqXATbkPem0oC0Qk0DmRQyPykpYdQYLzdU-LHiraSTTzVxl3I3t6LY&s=10"
   },
 
   // ---- Chiusure straordinarie (primo e ultimo giorno inclusi) ----

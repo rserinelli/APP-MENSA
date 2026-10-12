@@ -43,6 +43,33 @@ Tutto sta in **un solo file: `menu-data.js`**, scritto in chiaro.
 Per pubblicare la modifica ricarica `menu-data.js` sul sito (su Netlify trascina di nuovo la cartella).
 I genitori vedono il menù aggiornato alla prossima apertura dell'app con connessione.
 
+## 4. Avvisi dalla scuola (riquadro in alto)
+In `menu-data.js`, blocco `avvisi`, scrivi un messaggio con il suo periodo di validità, per esempio:
+
+    avvisi: [
+      { da: "2026-10-12", a: "2026-10-15",
+        titolo: "Cambio menù",
+        testo: "Questo giovedì: secondo formaggini" },
+    ],
+
+- L'avviso compare da solo il giorno `da` e sparisce da solo dopo il giorno `a` (estremi inclusi).
+- `titolo` è facoltativo (se manca compare "Avviso dalla scuola"). Puoi scrivere più avvisi, separati da una virgola.
+- Dopo la modifica ricarica `menu-data.js` sul sito, come per il menù.
+
+## 5. Stampa del menù in PDF
+Nella scheda **Mese** c'è il riquadro **Stampa il menù in PDF** con due pulsanti: **Menù estivo** e **Menù invernale**.
+Si apre la finestra di stampa con il menù completo (4 settimane, 2 pagine A4 orizzontali): scegli **Salva come PDF** oppure la stampante.
+Il file si chiama già "Menù Estivo 2026-27" / "Menù Invernale 2026-27".
+(Su iPhone: nell'anteprima di stampa allarga due dita sulla pagina, poi tocca Condividi → Salva su File.)
+
+## 6. Locandina con QR
+In fondo all'app c'è il link **Locandina con QR da stampare o inviare** (oppure apri `locandina.html` sul sito).
+- Il QR contiene da solo l'indirizzo del sito; se serve puoi correggerlo nel campo sopra l'anteprima, oppure scriverlo una volta per sempre in `menu-data.js` (`urlApp`).
+- **Stampa o salva PDF**: pagina A4 verticale pronta.
+- **Invia nei gruppi**: condivide la locandina come immagine (su computer la scarica).
+- Contiene le istruzioni in 3 passaggi per iPhone (Safari) e Android (Chrome).
+- Controlla sempre di aver caricato sul sito anche i nuovi file: `locandina.html`, `locandina.js`, `qr.js`.
+
 ## Se l'app resta ferma su "Caricamento..."
 Di solito succede quando sul sito sono stati caricati solo alcuni file e non tutti. Ricarica **sempre l'intera cartella** (tutti i file e la cartella `icons`).
 L'app ora si accorge da sola del problema: dopo pochi secondi compare il pulsante **Ripara e ricarica**.

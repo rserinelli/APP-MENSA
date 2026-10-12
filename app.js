@@ -378,6 +378,126 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guida').hidden) chiudiGuida(); });
   } catch (errInstalla) { /* il pulsante Scarica e' accessorio: l'app parte comunque */ }
 
+  // ---------- avvisi dalla scuola ----------
+  function dataLunga(d) { return d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' }); }
+
+  function periodoAvviso(a) {
+    if (a.da && a.a) {
+      if (a.da === a.a) return cap(dataLunga(parse(a.da)));
+      var d1 = parse(a.da), d2 = parse(a.a);
+      var inizio = d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
+        ? String(d1.getDate()) : d1.getDate() + ' ' + NOMI_MESI[d1.getMonth()].toLowerCase();
+      return 'Dal ' + inizio + ' al ' + d2.getDate() + ' ' + NOMI_MESI[d2.getMonth()].toLowerCase();
+    }
+    if (a.a) return 'Fino a ' + dataLunga(parse(a.a));
+    if (a.da) return 'Dal ' + dataLunga(parse(a.da));
+    return '';
+  }
+
+  function avvisiAttivi() {
+    var k = ymd(oggi());
+    return (M.avvisi || []).filter(function (a) {
+      return a && a.testo && (!a.da || k >= a.da) && (!a.a || k <= a.a);
+    });
+  }
+
+  function disegnaAvvisi() {
+    var box = $('avvisi');
+    var lista = avvisiAttivi();
+    box.innerHTML = lista.map(function (a) {
+      var per = periodoAvviso(a);
+      return '<div class="avviso" role="note">' +
+        '<div class="avviso-icona" aria-hidden="true">📢</div>' +
+        '<div class="avviso-corpo">' +
+        '<div class="avviso-titolo">' + esc(a.titolo || 'Avviso dalla scuola') + '</div>' +
+        '<div class="avviso-testo">' + esc(a.testo) + '</div>' +
+        (per ? '<div class="avviso-periodo">' + esc(per) + '</div>' : '') +
+        '</div></div>';
+    }).join('');
+  }
+
+  // ---------- stampa del menu in PDF (estivo / invernale) ----------
+  var GIORNI_LUNGHI = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
+
+  // "settembre-ottobre e maggio-giugno": mesi dell'anno scolastico che usano quel menu
+  function periodoMenu(inverno) {
+    var mesi = [], d = new Date(INIZIO.getFullYear(), INIZIO.getMonth(), 1);
+    while (d <= FINE) {
+      if ((M.mesiInvernali.indexOf(d.getMonth() + 1) !== -1) === inverno) mesi.push(d.getMonth());
+      d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+    }
+    var blocchi = [], cur = null;
+    mesi.forEach(function (m) {
+      if (cur && (cur[cur.length - 1] + 1) % 12 === m) cur.push(m); else { cur = [m]; blocchi.push(cur); }
+    });
+    return blocchi.map(function (b) {
+      var a = NOMI_MESI[b[0]].toLowerCase(), z = NOMI_MESI[b[b.length - 1]].toLowerCase();
+      return b.length === 1 ? a : a + ' – ' + z;
+    }).join(' e ');
+  }
+
+  function htmlStampa(inverno) {
+    var db = inverno ? M.menuInvernale : M.menuEstivo;
+    var titolo = 'Menù ' + (inverno ? 'Invernale' : 'Estivo') + ' ' + M.anno;
+    var surgelati = false;
+
+    function testata() {
+      return '<div class="sm-testata">' +
+        '<img class="sm-logo" src="img/barbarigo.png" alt="Barbarigo">' +
+        '<div class="sm-titoli"><div class="sm-titolo">' + esc(titolo) + '</div>' +
+        '<div class="sm-periodo">In vigore: ' + esc(periodoMenu(inverno)) + '</div></div></div>';
+    }
+
+    function tabella(n) {
+      var righe = PORTATE.map(function (p) {
+        var r = '<tr><th scope="row">' + p[1] + '</th>';
+        for (var g = 1; g <= 5; g++) {
+          var m = db[n] && db[n][g];
+          if (!m) { r += '<td></td>'; continue; }
+          if (String(m[p[0]]).indexOf('*') !== -1) surgelati = true;
+          var v = dividi(m[p[0]]);
+          r += '<td>' + esc(v.nome) + (v.infanzia ? '<span class="sm-inf">' + esc(v.infanzia) + '</span>' : '') + '</td>';
+        }
+        return r + '</tr>';
+      }).join('');
+      return '<section class="sm-sett"><h3>Settimana ' + ROMANI[n - 1] + '</h3><table><thead><tr><th></th>' +
+        GIORNI_LUNGHI.map(function (g) { return '<th>' + g + '</th>'; }).join('') +
+        '</tr></thead><tbody>' + righe + '</tbody></table></section>';
+    }
+
+    var pagine = [[1, 2], [3, 4]].map(function (coppia) {
+      return '<div class="sm-pagina">' + testata() + coppia.map(tabella).join('') +
+        '<div class="sm-nota">' + (surgelati ? '* prodotto surgelato &nbsp;·&nbsp; ' : '') +
+        'Le settimane si ripetono a rotazione, secondo il calendario scolastico.</div></div>';
+    });
+    return { html: pagine.join(''), titolo: titolo };
+  }
+
+  var titoloPagina = document.title, timerTitolo;
+  function ripristinaTitolo() { clearTimeout(timerTitolo); document.title = titoloPagina; }
+
+  function preparaStampa(inverno) {
+    var r = htmlStampa(inverno);
+    $('stampa-menu').innerHTML = r.html;
+    return r;
+  }
+
+  function stampaMenu(inverno) {
+    var r = preparaStampa(inverno);
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('#stampa-menu img'));
+    var attesa = imgs.map(function (im) {
+      return im.complete ? Promise.resolve() : new Promise(function (ok) { im.onload = im.onerror = ok; });
+    });
+    // il nome del file PDF salvato dal telefono/computer e' il titolo della pagina
+    document.title = r.titolo.replace(/\//g, '-');
+    window.addEventListener('afterprint', ripristinaTitolo, { once: true });
+    timerTitolo = setTimeout(ripristinaTitolo, 120000);
+    toast('Nella finestra di stampa scegli «Salva come PDF»');
+    Promise.race([Promise.all(attesa), new Promise(function (ok) { setTimeout(ok, 1500); })]).then(function () {
+      setTimeout(function () { try { window.print(); } catch (e) { ripristinaTitolo(); } }, 350);
+    });
+  }
+
   // ---------- collegamenti ----------
   $('tab-oggi').addEventListener('click', function () { mostraScheda('oggi'); });
   $('tab-mese').addEventListener('click', function () {
@@ -397,6 +517,9 @@
   $('tab-condividi').addEventListener('click', function () {
     condividi('Menù Mensa', 'Il menù della mensa, ogni giorno e ogni mese. Aprilo qui:');
   });
+
+  $('btn-pdf-estivo').addEventListener('click', function () { stampaMenu(false); });
+  $('btn-pdf-invernale').addEventListener('click', function () { stampaMenu(true); });
 
   $('mese-prec').addEventListener('click', function () { cambiaMese(-1); });
   $('mese-succ').addEventListener('click', function () { cambiaMese(1); });
@@ -425,6 +548,11 @@
   giorno = dentroPeriodo(oggi());
   meseVisto = meseCorrente();
   mostraScheda('oggi');
+  disegnaAvvisi();
+  // stampa normale (Ctrl+P): di base esce il menu della stagione in corso
+  preparaStampa(isInverno(oggi()));
+  // se l'app resta aperta per giorni, gli avvisi si aggiornano quando si torna sulla pagina
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) disegnaAvvisi(); });
   document.documentElement.setAttribute('data-pronto', '1');
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
