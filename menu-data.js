@@ -44,8 +44,8 @@ self.MENU = {
   //     "immagini/autunno.jpg"  (funziona anche senza connessione)
   // Vale anche per le immagini delle chiusure qui sotto.
   iconeWeekend: {
-    primavera: "immagini fisiche/primavera.png",
-    estate: "immagini fisiche/estate.png",
+    primavera: "immagini fisiche/Primavera.png",
+    estate: "immagini fisiche/Estate.png",
     autunno: "immagini fisiche/autunno.png",
     inverno: "immagini fisiche/inverno.png"
   },
