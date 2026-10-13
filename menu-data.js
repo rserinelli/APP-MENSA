@@ -10,7 +10,7 @@ self.MENU = {
 
   // ---- Date: formato AAAA-MM-GG (qui i mesi sono quelli normali: 09 = settembre) ----
   inizio: "2026-09-14",   // primo giorno di mensa (deve essere un lunedi)
-  fine:   "2027-06-25",   // ultimo giorno di mensa
+  fine:   "2027-06-30",   // ultimo giorno di mensa
 
   // Settimana del ciclo (1-4) che corrisponde al primo lunedi.
   // Con 2, il 14 settembre 2026 e' la Settimana II.
