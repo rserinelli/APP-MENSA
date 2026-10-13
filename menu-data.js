@@ -54,6 +54,12 @@ self.MENU = {
   // "immagine" e' l'immagine mostrata nei giorni di chiusura.
   chiusure: [
     {
+      da: "2026-11-01", a: "2026-11-01",
+      etichetta: "Ognissanti",
+      testo: "Mensa chiusa - Ognissanti",
+      immagine: "immagini fisiche/1nov-Ognissanti.png"
+    },
+    {
       da: "2026-11-02", a: "2026-11-02",
       etichetta: "Commemorazione dei defunti",
       testo: "Mensa chiusa - Commemorazione dei defunti",
