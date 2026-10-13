@@ -123,6 +123,13 @@
   <div class="guida-scheda">
     <h2 id="guida-titolo" class="guida-titolo">Scarica l'app</h2>
     <p id="guida-avviso" class="guida-avviso" hidden></p>
+    <div id="guida-video-box" class="guida-video-box" hidden>
+      <button type="button" class="btn-video" id="guida-video-btn">
+        <span class="btn-video-play" aria-hidden="true">&#9654;</span>
+        <span class="btn-video-testo">Guarda il video<small>30 secondi, con la voce</small></span>
+      </button>
+      <video id="guida-video" class="guida-video" controls playsinline preload="none" poster="video/guida-iphone.jpg" hidden></video>
+    </div>
     <ol id="guida-passi" class="guida-passi"></ol>
     <p id="guida-nota" class="guida-nota"></p>
     <button class="btn-pieno btn-largo" id="guida-chiudi">Ho capito</button>

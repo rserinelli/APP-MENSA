@@ -3,7 +3,7 @@
 // arrivano subito e i file non si mescolano), poi la copia salvata se manca la connessione.
 // menu-data.js e' letto anche qui, per salvare in anticipo le immagini messe nella cartella "immagini"
 try { importScripts('menu-data.js'); } catch (err) { /* non bloccante */ }
-const CACHE = 'menu-mensa-v12';
+const CACHE = 'menu-mensa-v13';
 const FILE = ['./', 'index.html', 'style.css', 'app.js', 'menu-data.js', 'santi.js',
               'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
               'icons/favicon-48.png', 'img/barbarigo.png', 'icons/apple-touch-icon.png'];
@@ -41,6 +41,9 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // Il video di aiuto va direttamente dalla rete (i video nel service worker danno problemi su Safari)
+  if (url.origin === location.origin && url.pathname.indexOf('/video/') !== -1) return;
 
   // Font di Google: dalla copia salvata, aggiornata in background
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {

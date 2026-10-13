@@ -358,12 +358,30 @@
       ];
       nota = 'Funziona meglio con Chrome: se usi un altro browser, apri questo link con Chrome.';
     }
+    // video di aiuto: solo su iPhone/iPad (su Android l'installazione e' un tocco)
+    $('guida-video-box').hidden = !isIOS;
+    fermaVideo();
     $('guida-passi').innerHTML = passi(elenco);
     $('guida-nota').textContent = nota;
     $('guida').hidden = false;
-    $('guida-chiudi').focus();
+    document.querySelector('.guida-scheda').scrollTop = 0;
+    try { $('guida-chiudi').focus({ preventScroll: true }); } catch (e) { /* ignora */ }
   }
-  function chiudiGuida() { $('guida').hidden = true; $('btn-scarica').focus(); }
+  function fermaVideo() {
+    var v = $('guida-video');
+    try { v.pause(); } catch (e) { /* ignora */ }
+    v.hidden = true;
+    $('guida-video-btn').hidden = false;
+  }
+  function chiudiGuida() { fermaVideo(); $('guida').hidden = true; $('btn-scarica').focus(); }
+  $('guida-video-btn').addEventListener('click', function () {
+    var v = $('guida-video');
+    if (!v.getAttribute('src')) v.setAttribute('src', 'video/guida-iphone.mp4');   // si scarica solo se serve
+    v.hidden = false;
+    $('guida-video-btn').hidden = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* se parte solo al tocco su play, va bene */ });
+  });
 
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); promptInstalla = e; });
   window.addEventListener('appinstalled', function () { $('blocco-scarica').hidden = true; toast('App installata'); });

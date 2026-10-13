@@ -63,6 +63,12 @@ Si apre la finestra di stampa con il menù completo (4 settimane) su **un solo f
 Nella vista Giorno e nella vista Mese si apre il menù della stagione che stai guardando. Il file si chiama già "Menù Estivo 2026-27" / "Menù Invernale 2026-27".
 (Su iPhone: nell'anteprima di stampa allarga due dita sulla pagina, poi tocca Condividi → Salva su File.)
 
+## 6. Video di aiuto per iPhone
+Su iPhone e iPad, toccando **Scarica l'app** si apre la finestra con i 4 passaggi e in cima c'è il pulsante giallo **Guarda il video** (30 secondi, con la voce). Su Android non compare: lì l'installazione è un tocco solo.
+- Il video è il file `video/guida-iphone.mp4` (con l'immagine di anteprima `video/guida-iphone.jpg`). Va caricato sul sito insieme agli altri file, mantenendo la cartella `video`.
+- Per cambiarlo basta sostituire il file `guida-iphone.mp4` tenendo lo stesso nome.
+- Il video si scarica solo quando qualcuno tocca il pulsante, quindi non appesantisce l'app.
+
 ## Se l'app resta ferma su "Caricamento..."
 Di solito succede quando sul sito sono stati caricati solo alcuni file e non tutti. Ricarica **sempre l'intera cartella** (tutti i file e la cartella `icons`).
 L'app ora si accorge da sola del problema: dopo pochi secondi compare il pulsante **Ripara e ricarica**.
