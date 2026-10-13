@@ -161,6 +161,7 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .nav-riga { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .nav-centro { flex: 1; text-align: center; min-width: 0; }
 .nav-titolo { margin: 0 0 4px; font-size: 19px; font-weight: 700; color: var(--blu); line-height: 1.2; }
+.santo { margin: -1px 0 5px; font-size: 15px; font-style: italic; font-weight: 600; color: var(--tenue); line-height: 1.25; }
 .chip {
   display: inline-block;
   font-size: 14px; font-weight: 700;
@@ -293,11 +294,8 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 .food-container div { margin-bottom: 4px; white-space: normal; overflow: hidden; }
 .closed-canteen { color: #64748b; font-style: italic; margin-top: 15px; text-align: center; }
 .closed-label { color: #64748b; font-size: 10px; text-align: center; font-style: italic; }
-.calendar-table td.today-active { background-color: #e0f2fe !important; box-shadow: inset 0 0 0 2px #38bdf8; }
-.calendar-table td.today-active .day-number { color: #0369a1 !important; background: #f0f9ff; }
-.calendar-table td.today-active .food-container { color: #0369a1 !important; font-weight: bold; }
 .infanzia-text { font-size: 10px; color: #64748b; font-style: italic; display: block; margin-top: 1px; font-weight: 400; }
-.footer-note { font-style: italic; color: #64748b; font-size: 11px; margin: 10px 0 0; text-align: right; }
+.footer-note { font-style: italic; color: #64748b; font-size: 11px; margin: 10px 0 0; text-align: left; }
 .scroll-hint {
   display: none;
   background-color: #e0f2fe;
@@ -397,6 +395,55 @@ button:focus-visible { outline: 3px solid var(--azzurro); outline-offset: 2px; }
 }
 
 #stampa-menu { display: none; }
+
+/* =====================================================================
+   EVIDENZIARE "OGGI"  (vista Giorno + vista Mese)
+   Si sceglie lo stile in index.html:  <html lang="it" data-oggi="1">
+     1 = Giallo "cartellino"   2 = Blu pieno   3 = Arancio a mano
+   ===================================================================== */
+.badge-oggi, .tag-oggi { display: none; }
+.nav-centro.e-oggi .badge-oggi { display: inline-block; }
+.calendar-table td.today-active .tag-oggi { display: inline-block; }
+
+.badge-oggi {
+  margin-bottom: 5px; padding: 1px 18px 0;
+  font-family: var(--scritta); font-size: 24px; letter-spacing: 3px; line-height: 1.25;
+  border-radius: 20px;
+}
+.tag-oggi {
+  margin-left: 4px; padding: 2px 6px;
+  font-size: 10px; font-weight: 800; letter-spacing: .5px;
+  border-radius: 4px; vertical-align: 1px;
+}
+.nav-centro.e-oggi .nav-titolo { font-size: 21px; }
+.calendar-table td.today-active .day-number { font-size: 15px; }
+.calendar-table td.today-active .food-container { font-weight: 700; }
+
+/* --- 1: giallo "cartellino" (stesso giallo del tasto Scarica) --- */
+html[data-oggi="1"] .badge-oggi { color: #14315f; background: linear-gradient(#ffe38a, #f0b52f); border: 2px solid #9a6a0a; box-shadow: 0 2px 0 #9a6a0a; }
+html[data-oggi="1"] .calendar-table td.today-active { background-color: #fff1b8 !important; box-shadow: inset 0 0 0 3px #e0a52a; }
+html[data-oggi="1"] .calendar-table td.today-active .day-number { color: #14315f !important; background: #f4b93a; }
+html[data-oggi="1"] .calendar-table td.today-active .food-container { color: #14315f !important; }
+html[data-oggi="1"] .tag-oggi { color: #fff; background: #1c4587; }
+
+/* --- 2: blu pieno --- */
+html[data-oggi="2"] .nav-centro.e-oggi { padding: 8px 8px 9px; background: var(--blu); border-radius: 16px; }
+html[data-oggi="2"] .nav-centro.e-oggi .nav-titolo { color: #fff; }
+html[data-oggi="2"] .nav-centro.e-oggi .santo { color: #dbe8fb; }
+html[data-oggi="2"] .nav-centro.e-oggi .chip { color: #fff; background: rgba(255, 255, 255, .2); }
+html[data-oggi="2"] .badge-oggi { color: #14315f; background: #f4b93a; }
+html[data-oggi="2"] .calendar-table td.today-active { background-color: #dbeafe !important; box-shadow: inset 0 0 0 3px #1c4587; }
+html[data-oggi="2"] .calendar-table td.today-active .day-number { color: #fff !important; background: #1c4587; }
+html[data-oggi="2"] .calendar-table td.today-active .food-container { color: #14315f !important; }
+html[data-oggi="2"] .tag-oggi { color: #14315f; background: #f4b93a; }
+
+/* --- 3: arancio con scritta grande a mano --- */
+html[data-oggi="3"] .badge-oggi { padding: 0; font-size: 40px; letter-spacing: 4px; line-height: 1; color: #c2410c; text-shadow: 0 2px 0 #fed7aa; }
+html[data-oggi="3"] .nav-centro.e-oggi .nav-titolo { color: #9a3412; }
+html[data-oggi="3"] .calendar-table td.today-active { background-color: #ffedd5 !important; box-shadow: inset 0 0 0 3px #ea580c; }
+html[data-oggi="3"] .calendar-table td.today-active .day-number { color: #fff !important; background: #ea580c; }
+html[data-oggi="3"] .calendar-table td.today-active .food-container { color: #7c2d12 !important; }
+html[data-oggi="3"] .tag-oggi { color: #fff; background: #c2410c; }
 
 /* ---------- schermi larghi (tablet / computer) ---------- */
 @media (min-width: 900px) {

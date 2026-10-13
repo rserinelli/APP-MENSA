@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-oggi="2">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -51,8 +51,10 @@
   <section id="vista-oggi" aria-labelledby="data-titolo">
     <div class="nav-riga">
       <button class="btn-freccia" id="giorno-prec" aria-label="Giorno precedente">&#9664;</button>
-      <div class="nav-centro">
+      <div class="nav-centro" id="nav-centro-giorno">
+        <span class="badge-oggi" id="badge-oggi" hidden>OGGI</span>
         <h2 class="nav-titolo" id="data-titolo">Caricamento...</h2>
+        <div class="santo" id="santo-giorno" hidden></div>
         <span class="chip" id="chip-settimana"></span>
       </div>
       <button class="btn-freccia" id="giorno-succ" aria-label="Giorno successivo">&#9654;</button>
@@ -166,6 +168,7 @@
   })();
 </script>
 <script src="menu-data.js"></script>
+<script src="santi.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

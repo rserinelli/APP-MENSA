@@ -29,6 +29,7 @@
   function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
   function giorniTra(a, b) { return Math.round((b - a) / 86400000); }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
   function oggi() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
   function memo(k, v) {
     try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; }
@@ -162,8 +163,13 @@
     var d = giorno;
     var st = stato(d);
     var etichetta = cap(d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
-    if (ymd(d) === ymd(oggi())) etichetta += ' (oggi)';
+    var eOggi = ymd(d) === ymd(oggi());
     $('data-titolo').textContent = etichetta;
+    var santo = (window.SANTI || {})[pad2(d.getMonth() + 1) + '-' + pad2(d.getDate())] || '';
+    $('santo-giorno').textContent = santo;                  // santo del giorno (anche a mensa chiusa)
+    $('santo-giorno').hidden = !santo;
+    $('badge-oggi').hidden = !eOggi;                       // badge OGGI sopra la data
+    $('nav-centro-giorno').classList.toggle('e-oggi', eOggi);
     $('stagione').textContent = titoloStagione(d);
     $('giorno-prec').disabled = ymd(d) <= M.inizio;
     $('giorno-succ').disabled = ymd(d) >= M.fine;
@@ -291,12 +297,14 @@
         var k = ymd(dd);
         var st = stato(dd);
         var classe = (k === todayKey) ? ' class="today-active"' : '';
+        // etichetta OGGI solo se la cella e' davvero oggi (nel weekend si evidenzia il lunedi, senza scritta)
+        var tag = (k === ymd(oggi())) ? '<span class="tag-oggi">OGGI</span>' : '';
         var attr = ' data-giorno="' + k + '"';
         if (st.tipo === 'aperto' && st.menu) {
-          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' +
+          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' + tag +
             '<div class="food-container">' + celleMenu(st.menu) + '</div></td>';
         } else {
-          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' +
+          riga += '<td' + classe + attr + '><span class="day-number">' + dd.getDate() + '</span>' + tag +
             '<div class="closed-canteen">Mensa chiusa</div>' +
             (st.chiusura ? '<div class="closed-label">' + esc(st.chiusura.etichetta) + '</div>' : '') + '</td>';
         }
