@@ -107,6 +107,7 @@ self.MENU = {
 
   // ==========================================================================
   //  MENU INVERNALE (1 novembre - 30 aprile)   <<<  MODIFICA QUI
+  //  Aggiornato al menu Vivenda A.S. 2026-2027
   // ==========================================================================
   menuInvernale: {
     // ===== SETTIMANA I =====
@@ -146,10 +147,10 @@ self.MENU = {
     // ===== SETTIMANA II =====
     2: {
       // LUNEDI
-      1: { primo: "Pasta con passato di fagioli",
-           secondo: "Frittata semplice",
-           contorno: "Carote* al vapore",
-           dessert: "Frutta di stagione",
+      1: { primo: "Mezze penne al pomodoro",
+           secondo: "Fettina di suino panata",
+           contorno: "Bieta* all'olio",
+           dessert: "Yogurt",
            pane: "Pane" },
       // MARTEDI
       2: { primo: "Pasta al ragù",
@@ -160,19 +161,19 @@ self.MENU = {
       // MERCOLEDI
       3: { primo: "Pasta al pesto",
            secondo: "Polpette di manzo al forno",
-           contorno: "Patate arrosto",
+           contorno: "Fagiolini* all'olio",
            dessert: "Frutta di stagione",
            pane: "Pane" },
       // GIOVEDI
-      4: { primo: "Mezze penne al pomodoro",
-           secondo: "Fettina di suino panata",
-           contorno: "Bieta* all'olio",
-           dessert: "Yogurt",
+      4: { primo: "Pasta con passato di fagioli",
+           secondo: "Frittata semplice",
+           contorno: "Patate arrosto",
+           dessert: "Frutta di stagione",
            pane: "Pane" },
       // VENERDI
       5: { primo: "Risotto con zucca",
-           secondo: "Cotoletta di mare",
-           contorno: "Fagiolini* all'olio",
+           secondo: "Cotoletta di mare*",
+           contorno: "Carote* al vapore",
            dessert: "Frutta di stagione",
            pane: "Pane" },
     },
@@ -182,19 +183,19 @@ self.MENU = {
       // LUNEDI
       1: { primo: "Minestrina in brodo di carne",
            secondo: "Bocconcini di pollo al forno",
-           contorno: "Patate al forno",
+           contorno: "Piselli* all'olio",
            dessert: "Yogurt",
            pane: "Pane" },
       // MARTEDI
       2: { primo: "Rigatoni burro e parmigiano",
            secondo: "Polpette al forno",
-           contorno: "Piselli* all'olio",
+           contorno: "Spinaci* all'olio",
            dessert: "Frutta di stagione",
            pane: "Pane" },
       // MERCOLEDI
       3: { primo: "Passato di fagioli con pasta",
            secondo: "Frittata",
-           contorno: "Fagiolini* all'olio",
+           contorno: "Finocchi* all'olio",
            dessert: "Frutta di stagione",
            pane: "Pane" },
       // GIOVEDI
@@ -206,7 +207,7 @@ self.MENU = {
       // VENERDI
       5: { primo: "Sedanini al pomodoro",
            secondo: "Filetto di pesce* panato",
-           contorno: "Spinaci* all'olio",
+           contorno: "Patate arrosto",
            dessert: "Budino",
            pane: "Pane" },
     },
@@ -223,7 +224,7 @@ self.MENU = {
       2: { primo: "Pasta al ragù",
            secondo: "Formaggio",
            contorno: "Insalata di carote e mais",
-           dessert: "Frutta di stagione",
+           dessert: "Ciambellone",
            pane: "Pane" },
       // MERCOLEDI
       3: { primo: "Napellini burro e parmigiano",
@@ -234,13 +235,13 @@ self.MENU = {
       // GIOVEDI
       4: { primo: "Crema di zucca e legumi con pasta",
            secondo: "Arista al forno",
-           contorno: "Purè di patate",
-           dessert: "Ciambellone",
+           contorno: "Piselli* all'olio",
+           dessert: "Frutta di stagione",
            pane: "Pane" },
       // VENERDI
       5: { primo: "Penne al pomodoro",
            secondo: "Bastoncini di salmone* al forno||Infanzia: Bast. Merluzzo*",
-           contorno: "Piselli* all'olio",
+           contorno: "Purea di patate",
            dessert: "Frutta di stagione",
            pane: "Pane" },
     },
